@@ -1,0 +1,91 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\section*{Excercise 3.3}
+
+\subsection*{(a): Write a program to compute $f(x) = \begin{cases}0 & x = 0 \\ 1 & x \neq 0\end{cases}$}
+
+Let $g(x, y)$ be the function in part (c).
+Then $f(x) = g(x, 0)$, and the program in (c) computes $x=0$.
+
+\subsection*{(b): Write a program to compute $f(x) = 5$}
+
+\begin{lstlisting}
+Z(1) S(1) S(1) S(1) S(1) S(1)
+\end{lstlisting}
+
+\subsection*{(c) Write a program to compute $f(x, y) = \begin{cases}0 & x = y \\ 1 & x \neq y\end{cases}$}
+
+\begin{lstlisting}
+J(1, 2, 3) S(2) T(2, 1)
+\end{lstlisting}
+
+\section*{Excercise 3.3}
+
+\subsection*{Show that T(m, n) is not strictly necessary.}
+
+Assume that no T instructions are in the program.
+Let $M$ be the longest sequence of S(1) instructions such that no Z(1) occurs after the final S(1) instruction.
+Let $m$ be the length of that sequence.
+If no Z(1) instuctions occur before the sequence $M$, then Register 1 will contain the value $x+m$.
+Otherwise, Register 1 will contain the value $m$.
+
+Relaxing the assumption that no T instructions occur in the program, observe that T insructions can be of the form T(1, j) (form a), T(j, 1) (form b) or T(j, k) (form c).
+By the logic above, let $m_a$ be the number of non-interrupted S(1) instructions.
+Then after a T form a instruction, register j will hold either $x+m_a$ or $m_a$.
+
+For a T form b instruction, by the above logic after a T form b instruction, the register j will hold $x+m_a$ or $m_a$.
+By the above logic with a change of index to S(j), an additional $m_b$ may be accumulated in register k, bringing its value to $x+m_a+m_b$.
+Let $m = m_a + m_b$.
+Then after a form b instruction with no following Z(1) instructions, register 1 will hold the value $m$ or $x+m$.
+
+By induction, this process can be extended to n T form c instructions, so long as the chain is ended by a form b instruction and possible started with a form a instruction.
+
+\section*{Excercise 3.4}
+
+\subsection*{Show that T(m, n) is not strictly necessary.}
+
+Let I be the index of the T(m, n) instruction. Modify the program as such:
+
+First, for every J instruction after the T instruction, increase the destination value by 4.
+
+Second, replace the T(m, n) instruction with the following four instructions.
+
+\begin{lstlisting}
+Z(n)
+J(m, n, I+4)
+S(N)
+J(n, m, I+1)
+\end{lstlisting}
+
+\section*{Excercise 4.3}
+
+\subsection*{(a) Show that $x<y$ is computable.}
+
+Let $f(x, y) = \begin{cases}0&x=y\\1&x<y\\2&x>y\end{cases}$. See email dated Feb 6.
+
+\subsection*{(b) Show that $x\neq3$ is computable.}
+
+Let $f(x, y) = $ 4.3(a).
+
+Let $g(x) = \begin{cases}0&x = 3\\>0&x\neq3\end{cases} = f(x, 3)$.
+
+See a.
+
+\section*{Excercise 5.1}
+\subsection*{Show $2x$ on $\mathbb{Z}$ is decidable}
+
+Example 5.1 shows $\alpha: \mathbb{X}\to\mathbb{N}$ and $\alpha^-1: \mathbb{N}\to\mathbb{Z}$.
+Let $f^*(x) = \alpha(2x)\alpha^-1$. $f(n) = 2x$ is show in example ..., so $f^*(x)$ is decidable.
+Expanded, $f^*(x) =
+\begin{cases}2x\\2x+1\end{cases} f(x)\alpha^-1 =
+\begin{cases}4x\\4x+2\end{cases} \alpha^-1 =
+\begin{cases}2x & \text{   } x \text{ even}\\-2(x-1) & \text {   } x \text{ odd}\end{cases}
+$
+
+\end{document}
