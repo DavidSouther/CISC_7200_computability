@@ -3,6 +3,7 @@
 \usepackage{fullpage}
 \usepackage{listings}
 \usepackage[utf8]{inputenc}
+\lstset{ basicstyle=\ttfamily, }
 
 \begin{document}
 
@@ -16,13 +17,20 @@ Then $f(x) = g(x, 0)$, and the program in (c) computes $x=0$.
 \subsection*{(b): Write a program to compute $f(x) = 5$}
 
 \begin{lstlisting}
-Z(1) S(1) S(1) S(1) S(1) S(1)
+Z(1)
+S(1)
+S(1)
+S(1)
+S(1)
+S(1)
 \end{lstlisting}
 
 \subsection*{(c) Write a program to compute $f(x, y) = \begin{cases}0 & x = y \\ 1 & x \neq y\end{cases}$}
 
 \begin{lstlisting}
-J(1, 2, 3) S(2) T(2, 1)
+J(1, 2, 3)
+S(3)
+T(3, 1)
 \end{lstlisting}
 
 \section*{Excercise 3.3}
