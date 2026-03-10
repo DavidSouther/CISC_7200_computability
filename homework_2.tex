@@ -1,0 +1,82 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\lstset{ basicstyle=\ttfamily, }
+
+\begin{document}
+
+\section*{Excercise 4.6 1}
+
+Show that the following are computable. All use Substituion, Ch2 Th3.1
+
+\subsection*{(a): Any polynomial $a_0 + a_1 x + a_2 x^2 ... + a_n x^n$}
+
+$ = \sum_{i=0}^{n} a_i x^i$
+
+\begin{itemize}
+\item Bounded Sum is computable by 4.8
+\item Exponentiation is computable by 4.5c
+\item Multiplication is computable by 4.5c
+\end{itemize}
+
+\subsection*{(b): $\lfloor \sqrt{x} \rfloor$}
+
+$\mu_{y<x}((y+1)^2 > x)$, the smallest number whose successor squared is greater than x.
+
+\begin{itemize}
+\item Minimization 4.12
+\item Successor URM
+\item Power 4.5b
+\item Greater Than by Ch1 3.3(d)
+\end{itemize}
+
+\subsection*{(c): $\operatorname{LCM}(x, y)$}
+
+$\prod_{i=0}^{\operatorname{min(x, y)}}\operatorname{max}((x)_i, (y)_i)$
+
+\begin{itemize}
+\item The $\operatorname{min}$ function by 4.5j
+\item The $\operatorname{max}$ function by 4.5k
+\item Bounded Product by 4.9
+\item The exponent of prime factorization ($(x)_i$) by 4.15c
+\end{itemize}
+
+\subsection*{(d): $\operatorname{GCD}(x, y)$}
+
+By Euclid's Algorithm:
+
+\begin{align*}
+\operatorname{GCD}(a, 0) =& 0 \\
+\operatorname{GCD}(a, 0) =& \operatorname{GCD}(b, \operatorname{rm}(b, a))
+\end{align*}
+
+\begin{itemize}
+\item The function $\operatorname{rm}$ by 4.5l
+\item Recursion by 4.2
+\end{itemize}
+
+\subsection*{(e): Number of prime divisors of $x$}
+
+$\sum_{i=0}^{x}\operatorname{div}(\operatorname{Pr}(i), x)$
+
+\begin{itemize}
+\item Bounded sums by 4.8
+\item The function divides $\operatorname{div}$ by 4.5n
+\item The $i$th Prime number $\operatorname{Pr}(i)$ 
+\end{itemize}
+
+
+\subsection*{(f): $\phi(x)$, the number of relative prime divisors of $x$}
+
+$\sum_{y=0}^x\operatorname{Sg}(\operatorname{GCD}(x, y) \dotdiv 1)$
+
+\begin{itemize}
+\item Bounded sums by 4.8
+\item $\dotdiv$ by 4.5d
+\item $\operatorname{sg}$ by 4.5f
+\item $\operatorname{GCD}$ by f, above
+\end{itemize}
+
+\end{document}
