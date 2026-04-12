@@ -1,0 +1,42 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\lstset{ basicstyle=\ttfamily, }
+
+\begin{document}
+
+\section{Recursion}
+
+\subsection{Definition}
+
+\begin{align*}
+h(\mathbf{x}, 0) &\simeq 0 \\
+h(\mathbf{x}, y) &\simeq g(\mathbf{x}, y-1, h(\mathbf{x}, y-1))
+\end{align*}
+
+\subsection{Successor}
+
+Successor $f(x) = x + 1$ is defined using URM as $x + 1 \equiv S(r_k)$
+
+As a recurrence relation:
+
+\begin{align*}
+h(0) &= 0 \\
+h(x) &= h(x-1) + 1
+\end{align*}
+
+\subsection{Addition}
+
+Addition $f(x, y) = x + y$ is defined via using the sucessor function, and the recurrence relation:
+
+\begin{align*}
+h(x, 0) = x + 0 &= x \\
+h(x, y) = x + y &= x + ((y - 1) + 1)
+\end{align*}
+
+As a computation, using 4.4: this begins with the value $x$ in some register $R_i$, $y$ in another register $R_j$, and $0$ in a third register $R_k$.
+It then proceeds to  
+
+\end{document}

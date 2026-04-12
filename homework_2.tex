@@ -2,6 +2,7 @@
 \usepackage{amsmath, amssymb, amsthm}
 \usepackage{fullpage}
 \usepackage{listings}
+\usepackage{stix}
 \usepackage[utf8]{inputenc}
 \lstset{ basicstyle=\ttfamily, }
 
@@ -23,13 +24,13 @@ $ = \sum_{i=0}^{n} a_i x^i$
 
 \subsection*{(b): $\lfloor \sqrt{x} \rfloor$}
 
-$\mu_{y<x}((y+1)^2 > x)$, the smallest number whose successor squared is greater than x.
+$\mu_{y<x}(\overline{\operatorname{sg}}(|(y+1)^2-x|))$, the smallest number whose successor squared is greater than x.
 
 \begin{itemize}
-\item Minimization 4.12
 \item Successor URM
 \item Power 4.5b
-\item Greater Than by Ch1 3.3(d)
+\item Cut off subtraction 4.5h
+\item Bounded Minimization 4.12
 \end{itemize}
 
 \subsection*{(c): $\operatorname{LCM}(x, y)$}
@@ -70,11 +71,11 @@ $\sum_{i=0}^{x}\operatorname{div}(\operatorname{Pr}(i), x)$
 
 \subsection*{(f): $\phi(x)$, the number of relative prime divisors of $x$}
 
-$\sum_{y=0}^x\operatorname{Sg}(\operatorname{GCD}(x, y) \dotdiv 1)$
+$\sum_{y=0}^x\operatorname{Sg}(\operatorname{GCD}(x, y) \dotminus 1)$
 
 \begin{itemize}
 \item Bounded sums by 4.8
-\item $\dotdiv$ by 4.5d
+\item $\dot{-}$ by 4.5d
 \item $\operatorname{sg}$ by 4.5f
 \item $\operatorname{GCD}$ by f, above
 \end{itemize}
