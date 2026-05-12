@@ -41,18 +41,18 @@ Rice-Shapiro then gives an extension that brings us back to the finite world, wi
 
 History:
 
-The goal of all of this is to look at a statement, and decide if that statement is true. Someone comes to you and makes a claim: "My function is the iseven function!" and you want to believe them. But you're a skeptic. How do we get there?
+The goal of all of this is to look at a statement, and decide if that statement is true. Someone comes to you and makes a claim: "My function is the is_even function!" and you want to believe them. But you're a skeptic. How do we get there?
 
-Let's look at examples through history people asking proof of a statement. The eureka story- Archimedes finds an alternate way to demonstrate by construction. Proof of itrationality of sqrt 2, just one counterexample. Ecclesiastes 22- didn't look hard enough, a woman belongs at the bimah like an orange on the seder plate, Susannah Heschel. Genesis 18- what do you think? Actually it's us, the translation misplaces the emphasis.
+Let's look at examples through history people asking proof of a statement. The eureka story- Archimedes finds an alternate way to demonstrate by construction. Proof of itrationality of sqrt 2, just one counterexample. <--Ecclesiastes 22- didn't look hard enough, a woman belongs at the bimah like an orange on the seder plate, Susannah Heschel. Genesis 18- what do you think? Actually it's us, the translation misplaces the emphasis.-->
 
-Jumping ahead to the enlightenment- Galileo, and yet it moves. Hume- induction. Descartes- mind/body duality. Newton- analysis and motion nailed predictions. That's it, that's all of science? Newton solved it, it's perfect. ... is it?
+Jumping ahead to the enlightenment- Galileo, and yet it moves. Hume- induction. Newton- analysis and motion nailed predictions. That's it, that's all of science? Newton solved it, it's perfect. ... is it?
 
 Mercury's orbit is mis-predicted. Einstein opens an entirely new regime of which Newton is a subset. Freud starts gaffing about oedipal complexes. Popper says that Newton is a better scientist than Freud, because falsifiability. Feynman doesn't care about Freud but says the same thing about nature. (Connects to mind body duality- mind doesn't matter, Nature matters.) but math is perfect, there's no contradictions, it's beautiful, the physicists must be wrong! No, the math is incomplete. Gödel says it, Turing says it, Rice says it. Popper and Shapiro show us how we can begin to recover those two.
 
 Interlude:
 So math is all inductive because you can start with axioms and build whatever you want. But the things you can build might not describe the real world. You use math to find what you expect to count. Why is that important?
 
-We have the "real world" of counting and the "language world" of stories. The Count and the Myth. Tell all the stories you want- some are true, some are fiction, some are lies, some are fancy. This isn't a literature class, so we won't spend time categorizing those.
+We have the "real world" of counting and the "language world" of stories. The Count and the Myth. Tell all the stories you want- some are true, some are fiction, some are lies, some are fancy. This isn't a literature class, so we won't spend time categorizing those. If you want to learn more of this, review the literature on Mythos vs Logos.
 
 <diagram of "the countable world" on the left" and the "functions, algorithms, programs" on the right>
 
