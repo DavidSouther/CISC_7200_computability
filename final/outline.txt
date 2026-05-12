@@ -1,0 +1,79 @@
+Working on a presentation for a Computability graduate course. The talk is 45 minutes, organized around the Rice Shapiro theorem but discussing the larger question and philosophy of falsification.
+
+Outline:
+
+
+Theorems: Rice & Rice-Shapiro, Contrapositives, diagrams, plain English
+Falsification: How do I know you're right?
+  Anctients: Archimedes, Pythagoreans, Ecclesiastes, Genesis
+  Enlightenment: Galileo, Hume, Descartes, Newton 
+  Modern: Freud, Popper, Feynman, Shapiro
+Interlude: The Count and the Myth
+Certainty: Pearson and Null Hypothesis testing
+Practice: Dithering around a region of interest
+
+
+# Theorems
+
+Cover Rice theorem and Rice Shapiro theorem. First the theorems, formally. The n their contrapositives, formally. Then both the theorems and the contrapositives in plain English. 
+
+Let S be a set of partial computable functions, and I_S be its index set. "Some interesting property might be computed by I_S." S is trivial if it's the Natural Numbers or if it's the Empty set. (There's no splitting into two groups with and without the property.)
+
+RICE: If S is non-trivial, then I_S is undecidable. (Contrapositive: If I_S is decidable, S is trivial.)
+
+<A diagram illustrating Rice' theorem splitting the set of functions into with and without the intersting property.
+
+Proof: ...
+
+RICE-SHAPIRO: g \in S <=> \exists finite h \subset g : h \in S. (Contrapositive: g \in S and h \subseteq g: h \notin S => I_S not r.e.).
+
+<The same diagram, but showing a single point across the split>
+
+Proof: ...
+
+Discussion
+
+Subtly, Rice' theorem is not whether a number has a property (is_even is computable), but whether a function causes a property (the function you gave me is equivalent to the is_even function). This is also not programs or algorithms - just functions, black boxes.
+
+The consequences and uses of Rice' Theorem (and really, its proof) are Noson Yanofsky's work in category theory of paradoxes. Rice' theorem states (and Yanofsky's papers give a mechanism) how to identify when a set of statements builds into a paradox. When a statement is a paradox, it has thus built itself out of consideration for a mathematical theory.
+
+Rice-Shapiro then gives an extension that brings us back to the finite world, with a statement that's almost perfectly lifted from Popper: "One counterexample ruins the proof." One counterexample (fn(3) == true) proves that fn is _not_ the is_even function!
+
+History:
+
+The goal of all of this is to look at a statement, and decide if that statement is true. Someone comes to you and makes a claim: "My function is the iseven function!" and you want to believe them. But you're a skeptic. How do we get there?
+
+Let's look at examples through history people asking proof of a statement. The eureka story- Archimedes finds an alternate way to demonstrate by construction. Proof of itrationality of sqrt 2, just one counterexample. Ecclesiastes 22- didn't look hard enough, a woman belongs at the bimah like an orange on the seder plate, Susannah Heschel. Genesis 18- what do you think? Actually it's us, the translation misplaces the emphasis.
+
+Jumping ahead to the enlightenment- Galileo, and yet it moves. Hume- induction. Descartes- mind/body duality. Newton- analysis and motion nailed predictions. That's it, that's all of science? Newton solved it, it's perfect. ... is it?
+
+Mercury's orbit is mis-predicted. Einstein opens an entirely new regime of which Newton is a subset. Freud starts gaffing about oedipal complexes. Popper says that Newton is a better scientist than Freud, because falsifiability. Feynman doesn't care about Freud but says the same thing about nature. (Connects to mind body duality- mind doesn't matter, Nature matters.) but math is perfect, there's no contradictions, it's beautiful, the physicists must be wrong! No, the math is incomplete. Gödel says it, Turing says it, Rice says it. Popper and Shapiro show us how we can begin to recover those two.
+
+Interlude:
+So math is all inductive because you can start with axioms and build whatever you want. But the things you can build might not describe the real world. You use math to find what you expect to count. Why is that important?
+
+We have the "real world" of counting and the "language world" of stories. The Count and the Myth. Tell all the stories you want- some are true, some are fiction, some are lies, some are fancy. This isn't a literature class, so we won't spend time categorizing those.
+
+<diagram of "the countable world" on the left" and the "functions, algorithms, programs" on the right>
+
+We're going to stick with math and software, so we're back to the diagram of functions, algorithms, and progams - and the things in the real world. We're looking for mappings, two chunks of mappings. The first down here is describing certain parts of the world with their counting theory, and finding functions that accurately model that part of the world. It might be a business process or scientific observations, whatever. Then up on the top, we need to find a program that accurately conveys that function, and run it on a specific piece of hardware (that just counts). This is the computational mind-body duality of Descartes.
+
+Strength of claims
+
+Popper and Shapiro both point out that any one negative example disproves a claim. Mercury's orbit disproved Newton. A sane guy with a crazy mom disproves Freud. (quotes from Popper's Logic of Scientific Theory) Those claims have distinct qualia. One is nebulous; a claimed counterexample moves the goal posts so to speak. The theory adapts to the facts. The other is specific, and admits when it's wrong.
+
+Pearson develops the T Test to tell you how confident you can be of a certain claim after a certain number of observations. (Can you think of this in terms of Cauchy?) 
+
+In Practice: 
+
+All of that, leads us to a really simple statement. You can prove your program is correct enough by writing a unit test.
+
+Zoom in on this business process, and overlay the Rice-Shapiro diagram on that.
+
+<Draw diagram>
+
+When we write our program for this function, we can then run it twice - once with a value over here, that should complete with a positive result, and once with a value over there, that should (with some max number of steps) complete with a negative result.
+
+Or maybe we're not sure specific values, then we can perform dithering. 
+
+<Digram with loose dithering, to find points with and without the property of interest.>
