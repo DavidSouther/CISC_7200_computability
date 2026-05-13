@@ -37,7 +37,7 @@ The consequences and uses of Rice' Theorem (and really, its proof) are Noson Yan
 
 Rice-Shapiro then gives an extension that brings us back to the finite world, with a statement that's almost perfectly lifted from Popper: "One counterexample ruins the proof." One counterexample (fn(3) == true) proves that fn is _not_ the is_even function!
 
-History:
+# History:
 
 The goal of all of this is to look at a statement, and decide if that statement is true. Someone comes to you and makes a claim: "My function is the is_even function!" and you want to believe them. But you're a skeptic. How do we get there?
 
@@ -65,7 +65,7 @@ Popper and Shapiro both point out that any one negative example disproves a clai
 Pearson develops the T Test to tell you how confident you can be of a certain claim after a certain number of observations. (Can you think of this in terms of Cauchy?) 
 -->
 
-Practice: Dithering around a region of interest
+# Practice: Dithering around a region of interest
 
 All of that, leads us to a really simple statement. You can prove your program is correct enough by writing a unit test.
 

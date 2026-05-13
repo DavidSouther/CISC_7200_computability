@@ -1,0 +1,355 @@
+Slide outline. 45 minutes, 45 slides. One slide per minute, give or take.
+
+Each slide is marked [bullets] or [diagram]. Bullet slides carry a short list of phrases, not sentences. Diagram slides carry one picture and at most one caption line. Image suggestions for portraits and historical illustrations are listed where applicable.
+
+
+=== I. OPENING (3 slides) ===
+
+1. [bullets] Title slide
+   - Falsifier? I just met her!
+   - CISC 7200 final
+   - May 14th 2026, David Souther
+
+> In this talk, we're going to talk about "falsification". You've just come across someone who's made a boast, or some claim about the world we live in. Do you believe them? Should you believe them? How would you decide when to believe them? Our friend Shapiro, and his colleagues Karl Popper and many others, have given us a very straightforward way, a mathematically provable way, to make that call.
+
+2. [bullets] Overview
+   - How do you accept that someone is telling the truth?
+   - Rice-Shapiro Theorem: "One counterexample disproves the claim"
+   - As professional software engineers, what can we use?
+
+> So we'll start by re-treading Rice & Rice-Shapiro, just to stay on firm mathematical ground with proofs and everything. Then we'll throw that away to talk about what it means for philosophy and trusting people you talk to.
+
+> The way Shapiro does this is pretty easy. He says "Hey, if there's some lemma, about a partitioning, that you don't believe, just show me one thing that _doesn't_ meet that partitioning and I'll say I was wrong." Popper says the same thing, though in more words than symbols. We'll get into him in depth later, but Popper's main claim is that if you want to do science, if you want to really know the world, your description has to be clear enough that I have a chance to refute it.
+
+> And the end of this, I'm going to bring it back to my field, and ostensibly Computer Science, and talk about how we can use these ideas to really ensure we're engineering the best software we can. Because every computer program is, actually, a proof of some theorem.
+
+3. [bullets] Roadmap
+   - Theorems: Rice and Rice-Shapiro
+   - History: Archimedes, Newton, Popper
+   - Practice: tests and types
+
+> So that's the big picture. Here's a roadmap of how we'll get there - we're going to start with those theorems, like I said. The bulk of the talk is going to be an extended trip through history, checking in mainly with Archimedes, Newton, and this gentleman who might be a bit newer to you named Popper, and we'll see a few other friends along the way. Then we'll end with how Unit Testing and Typed Programming Languages give structure to those of us who practice software engineering.
+
+
+=== II. THEOREMS (10 slides) ===
+
+4. [bullets] Setup
+   - S, a set of partial computable functions
+   - I_S, its index set
+   - Trivial: S is N or S is empty
+   - Non-trivial: a real split
+
+> Let's do a bit of setup. We start with S, a set of partial computable functions. Partial computable means that we're sure some natural numbers as inputs to this function will end with a value coming out, but we're not sure which ones.
+
+> We have an index set I_S of that set S. So we can assign a number to each function in the set S. This is a bit subtle for correctness, and I'm going to get it wrong a few times in this talk, but we're not talking about the concrete case of the properties of any single number in any single function, but rather we're wanting to talk about a class of functions as a black box. In notation, this is the "0 or 1", so if S is "functions that calculate whether an input number is even", any particular function might be testable with, say, 0, 1, 2, 5, and 8, and we'd be OK with it. But we want to say _any_ function, is it a function that figures out if a given value is even?
+
+> So S is the kinds of functions we want to identify, I_S is a way to check if some function is in S. A couple points for completeness - S is "trivial" if it's either empty (no functions have this property, like, "the function is an elephant") or if it's every function - every function is a function, ok, yes, that's true thank you.
+
+5a. [bullets] Rice, formal
+   - If S is non-trivial, then I_S is undecidable
+   - No general decision procedure for "is this function in S"
+
+5b. [diagram] Rice diagram
+   - The set of partial computable functions, split into "with property" and "without property"
+   - Caption: undecidable which side a given index lands on
+> So, Rice' theorem again: If S is non-trivial, then I_S is undecidable. For the proof:
+
+5c. [bullets] Rice, proof
+    $a, b ∈ N; a ∈ S; b ∉ S$
+    f(e, x) = \parts{\varphi_{b}(x)$ when e ∈ S}{\varphi_{a}(x)$ when e ∉ S}
+    By s-m-n, $\varphi_{e}(x)=f(e, x)$.
+    e \in S => \varphi_{e}=\varphi_{b}, but b \notin S
+    e \notin S => \varphi_{e}=\varphi_{a}, but a \in S
+
+> a and b are two naturals in either side of the partition. We're going to construct f using the same procedure that we did in Turing's proof of halting, and in every category theory diagram. f with e as the first argument is a total computable function defined by taking the opposite of the assumptions in the first slide. 
+
+> With an application of s-m-n, we get from f to phi, and then, directly to the contradiction - if phi_e is phi_b, e is both in and not in I_S. and vice versa.
+
+5b. [diagram] Rice', in Category Theory format
+   - Left middle: S
+   - Right middle: decidable
+   - Top left: I_S 
+   - Top right: f
+   - Arrow: Left to top left, I_S is index set of S
+   - Arrow: Top left to top right, cases
+   - Arrow: Left middle down along bottom to right middle: direct
+   - Arrow: Top right to right middle: The contradiction 
+
+> And here it is again as a category theory.
+
+7. [bullets] Rice, contrapositive
+   - If I_S is decidable, then S is trivial
+   - The only decidable function properties are no property at all
+
+> So let's turn this around to the contrapositive - assume the index set is, in fact, decidable. Then what do we know about S? The only thing we can know is that S is either empty, or everything. This on its own isn't interesting, but hold this thought.
+
+8. [bullets] Rice-Shapiro, formal
+   - Rice: If S is non-trivial, then I_S is undecidable
+   - Shapiro: f in S iff there exists finite g subset of f with g in I_S
+
+> The word that should jump out here right away is "finite". So we had Rice, which says I_S is undecidable. Let's keep with the same set and index set, and think through it a bit different. This says that some function f is in S if and only if we another function, this time a finite function g, is in the index set. So we said the index set itself is undecidable, but Shapiro is saying hey you can 
+
+9. [diagram] Rice-Shapiro diagram
+   - The Rice picture, plus several points on one side and one on the other, straddling the boundary
+
+> Here it is as a picture. We've got the partitioning of S here, and we have some candidate function f. These points are a subset of f, and in this case, g suggests that f is a reasonable candidate.
+
+9b. [diagram] Rice-Shapiro diagram
+   - The Rice picture, plus several points on one side and one on the other
+
+> Uh oh... here's another point in g! And this one is on the wrong side! So this finite g says yo, f is definitely not in the Index Set, since the index set can only generate things on the left side!
+
+9c. [bullets] Rice-Shapiro, proof
+
+9d. [diagram] Rice-Shapiro, category theory
+    - <Similar shape to above>
+
+10. [bullets] Rice-Shapiro, contrapositive
+    - If g in S and some finite h subset of g has h not in S, then I_S is not r.e.
+    - The witness can refute, not only confirm
+
+> And this is the much easier way to say it, as the contrapositive. 
+
+11. [bullets] Plain English, all four
+    - Rice: non-trivial behavioral properties are undecidable
+    - Rice-contra: decidable means trivial
+    - Rice-Shapiro: behavior is fixed by finite evidence
+    - Rice-Shapiro-contra: a single finite witness against you, and the index set is not even r.e.
+
+13. [bullets] Bridge to history
+    - Rice-Shapiro: one counterexample is enough
+    - Mathematicians arrived here in 1956
+    - Along with the rest of the scientific world!
+
+> This really feels super obvious, and intuitive? It does for me at least. But going through history, accepting this is anything but obvious. It's actually prett damned hard, for a lot of folks.
+
+> Let's talk some history.
+
+=== III. FALSIFIER? I JUST MET HER (20 slides) ===
+
+14. [bullets] Section title
+    - Falsifier? I just met her!
+    - A walk through the history of falsification
+    - Three eras, three figures, one discipline
+
+--- Archimedes ---
+
+15. [Picture + Bullets] Archimedes, portrait
+    - Image: Domenico Fetti, "Archimedes Thoughtful" (1620), or a classical bust
+    - Caption: Archimedes of Syracuse, c. 287 to 212 BCE
+
+    - Syracuse, Magna Graecia
+    - Mathematician, engineer, astronomer
+    - Killed at the siege of Syracuse by a Roman soldier, mid-equation
+
+> So this is Archimedes, one of those greek figures we hear so much about. He's a bit towards the end of the Hellenistic world; Aristotle and Alexander the Great were both dead 50 years before Archimedes was born. So he's working from all the writings of the Pythagoreans, and he's got all of Euclid in his back pocket, but he doesn't have things like Algebra or the concept of "zero" as a number. If you asked him, he'd tell you the natural numbers start at 1. Still, he very nearly invented calculus, so he's a pretty smart dude.
+
+17. [bullets] Archimedes, the question
+    - Hiero II asks: is the crown pure gold, or alloy?
+    - Destructive assay forbidden
+    - The claim: this crown is pure
+
+> On the falsification experiment, he's actually here as a judge rather than a questioner. His king, Hiero the second, has just gotten this gorgeous crown, and he needs to know if the artisan is being honest. How do you figure out if something is pure gold?
+
+> If you just weigh it, you don't know if it's pure gold, or gold-silver alloy of the same weight. You could melt it and try separating out any silver, but that kinda defeats the purpose of having this crown! It's already made, so we can't, like, have a guard look over their shoulder the entire time, either.
+
+> The story goes that, this was the first time Archimedes had come across this problem any way (we technically don't know if someone figured it out before and didn't write it down). So Archimedes is sitting around thinking about this problem, and its said that he fills his bath tub all the way up to the brim. (It's the anctients, not the medieval, so they still took baths.) He gets in, and a bunch of water spills out... how much water? Well, the same volume as he takes up!
+
+> He jumps out screaming "Eureka!" and runs naked down the streed with an experiment in hand, a technique to ask a falsifiable question (or refutable question). He tells his idea to the king (still naked), the do the experiment, and execute the dishonest artisan. So the king got his crown _and_ didn't pay for it.
+
+18. [diagram] The displacement experiment
+    - Vessel filled to the brim of a spout
+    - Submerge a measured weight of gold, catch the overflow in container A
+    - Refill the vessel, submerge the crown, catch the overflow in container B
+    - Compare A and B
+    - Caption: if the crown displaces more water than gold of equal weight, the claim is refuted
+
+> Here's a quick look at the experimental apparatus. The interesting thing here is that we're using this indirect measurement to find "the real thing". This is an early computation, using a theory to derive an expected value, then measuring against that value. Keep this in mind.
+
+19. [bullets + diagram] Archimedes, takeaway
+    - The artisan made a claim
+    - An indirect measurement can refute the claim
+
+[category theory diagram of the same trapezoid shape above]
+
+--- Bridge: Galileo ---
+
+20. [diagram] Galileo, two pictures
+    - Image left: sunspot drawings from "Letters on Sunspots" (1613)
+    - Image right: two bowling balls dropped from a tower
+    - Caption: predictions specific enough to be wrong
+
+> We're jumping ahead a ways, anyone recognize this guy? Galileo was a lens maker - lenses were super important for Venetians. As sea-faring traders, it was really useful to know sooner than later whether that ship on the horizon was your own traders coming back with silks and spices, or if it was your enemy showing up with guns to take your silks and spices. But as an early Enlightenment scientist, he's also pointing them up at the sky and everywhere else he can.
+
+> He's got two things that are salient to us here. Both are falsifications. The first was simply looking at things - in this case, the sun. Catholic doctrine stated the heavenly bodies were pefect and unmoving. Gallileo, with his telescope, pointed it at the sun and was intrigued to find a blemish, and one that moved! The sun wasn't perfect, and it wasn't fixed. After being tried for blasphemy and ostensibly renouncing his claims, (and, this is probably apocryphal), he says "Eppur si muove", "And yet, it moves"
+
+> The second takes aim at Aristotle, who says that heavy things fall faster. Galileo claims a cannon ball and a marble dropped at the same time land at the same time. Actually that was an experiment in Delft, by de Groot and Silvens. Galileo does a thought experiment that arrives at an intriguing contradiction, but that will have to wait for another time.
+
+<!--
+Salviati. If then we take two bodies whose natural speeds are different, it is clear that on uniting the two, the more rapid one will be partly retarded by the slower, and the slower will be somewhat hastened by the swifter. Do you not agree with me in this opinion?
+
+Simplicio. You are unquestionably right.
+
+Salviati. But if this is true, and if a large stone moves with a speed of, say, eight while a smaller moves with a speed of four, then when they are united, the system will move with a speed less than eight; but the two stones when tied together make a stone larger than that which before moved with a speed of eight. Hence the heavier body moves with less speed than the lighter; an effect which is contrary to your supposition. Thus you see how, from your assumption that the heavier body moves more rapidly than the lighter one, I infer that the heavier body moves more slowly.--> 
+
+--- Newton ---
+
+21. [diagram + bullets] Newton, portrait
+    - Image: Godfrey Kneller's 1689 portrait
+    - Caption: Isaac Newton, 1643 to 1727
+    - Trinity College, Cambridge, 1665
+    - Principia Mathematica, 1687
+    - President of the Royal Society
+
+> Moving ahead the year after Galileo's death, Isaac Newton is born in Englang. He takes refuge from the plague in 1665, sees the apocryphal apple drop from a tree (or fall on his head), and begins wondering about the ideas that we now call "force". If "force" can reach out over a distance, what does that mean? He spends the rest of the summer inventing calculus, proving the inverse square law of gravitational attraction, predicts exactly Kepler's planetary motion from first pinciples and the return of Halley's comet, and then like the total jackass he is doesn't publish it for another 22 years.
+
+23. [bullets] Newton, the claim
+    - Universal gravitation, inverse square
+    - Predicts planetary orbits, tides, falling apples
+    - A single theory for the heavens and the earth
+
+> Using the simple principles of the three laws of motion - Inertia, Force as Mass by Acceleration, and the principle of action and reaction - and also inventing all of calculus - Newton perfectly predicted _where_ planets would be. To this point, Kepler had show that planets did move in an ellipse, and with laborious effort could calculate which ellipse. But Newton turned that on its head and showed that the ellipse was a consequence of a simpler principle, and with the simpler principle, the labor of calculating a trajectory was much improved.
+
+24. [diagram] Halley's comet
+    - Image: contemporary engraving of the 1759 return
+    - Caption: Halley predicts 1758, the comet returns 1759
+
+> So Edmund Halley is a royal astronomer (again, if you can see a ship further away, you can better prepare to fight them). And he's got ideas on when a certain comet will re-appear. To this point, the orbits of the planets were well established, but, like, why would a comet follow that? It's a comet, not a planet... but ok, why wouldn't it?
+
+> So Halley tries to calculate it. And he gets it... kinda right? He's off by a few months. Which given their equipment is pretty darned good! He ends up visiting Newton, asking Newton to check his notes, and Newton's like "your calculations are wrong" and Halley's like "how do you know that?" (Halley was doing everything with trigonometry, which... SUCKS... for orbital mechanics) and Newton's like "Because I already figured it out 20 years ago"
+
+> Halley's like "bullshit" and Newton goes to his shelf and pulls out his notes from Cambridge (the ones that, you know, invented calculus) and sure enough there's his calculations for Halley's Comet with a slightly more accurate prediction. Newton called his shot and nailed it. Halley's impressed, and actually pays himself to get Newton's Principia published.
+
+> Pretty good, yeah?
+
+25. [diagram] Mercury's orbit
+    - Image: precession of the perihelion, exaggerated
+    - Caption: Newton predicts X, observation gives X plus 43 arcseconds per century, the theory misses
+
+> Well..... it's not quite right. Mercury has an additional orbital motion that Newton can't explain.
+
+26. [bullets] Newton, takeaway
+    - Proof by prediction
+    - A theory survives by surviving the next observation
+    - Mercury is the called shot the theory missed
+    - Einstein opens a new regime, Newton becomes a subset
+
+> So what does Newton give us in the world of falsifiability? He's still calculating things proactively. He happens to be getting it right enough of the time to be valuable. 
+
+--- Popper ---
+
+27. [diagram] Popper, portrait
+    - Image: black and white portrait of Popper at the LSE
+    - Caption: Karl Popper, 1902 to 1994
+
+28. [bullets] Popper, life
+    - Vienna, schooled at the edge of the Vienna Circle
+    - Emigrates via New Zealand
+    - London School of Economics
+    - "The Logic of Scientific Discovery," 1934
+
+29. [bullets] Popper, the foil
+    - Freud explains every behavior, in any direction
+    - A theory that forbids nothing predicts nothing
+    - The asymmetry: confirmation is cheap, refutation is decisive
+
+30. [bullets] Popper, the rule
+    - A claim is scientific if it forbids something
+    - Science calls its shot before it takes it
+    - One missed shot is enough
+
+31. [diagram] Yanofsky-style cone
+    - Left: the countable world (objects, observations)
+    - Right: the cone of functions, algorithms, programs
+    - Caption: mappings between the world and the language we use to talk about it
+
+32. [bullets] Three eras, one discipline
+    - Archimedes builds the witness
+    - Newton survives the prediction
+    - Popper names the killer in advance
+    - Goedel, Turing, Rice, Shapiro: the math catches up
+
+33. [bullets] Bridge to practice
+    - Rice-Shapiro is Popper, formalized
+    - One finite counterexample refutes membership
+    - The next forty-five minutes of your career: call your shots
+
+
+=== IV. PRACTICE: DITHERING AND CONSTRAINT (11 slides) ===
+
+34. [bullets] Section title
+    - Practice: Dithering and Constraint
+    - Two boundaries on an undecidable middle
+    - Inner: tests. Outer: types.
+
+35. [diagram] Descartes opener
+    - Image: a sketch in three layers, world / function / program-on-hardware
+    - Caption: the program-function-hardware duality
+
+36. [diagram] World and function, business example
+    - The Yanofsky-style cone, redrawn
+    - Label a business process on the world side (e.g. "is this transaction fraudulent")
+    - Label the matching function on the program side
+    - Caption: the engineer's job lives between these two arrows
+
+37. [bullets] Dithering and Rice-Shapiro
+    - The Rice-Shapiro picture, applied to a working function
+    - Pick a point that should land inside, run it, observe
+    - Pick a point that should land outside, run it, observe
+
+38. [diagram] Loose dithering
+    - Many points scattered around the boundary
+    - Some land inside (witnesses), some outside (refutations)
+    - Caption: each point is a called shot
+
+39. [bullets] Dithering as unit testing
+    - A unit test is a called shot at behavior
+    - Landed: a witness, the function is inside the set, for this input
+    - Missed: a refutation, the function is not what we claimed
+    - The suite raises the lower bound on the index set, witness by witness
+
+40. [bullets] Type systems
+    - The other table
+    - Types call shots at composition, not behavior
+    - The compiler is the referee
+    - A type error is a refutation before the shot is even taken
+
+41. [diagram] Type system as outer fence
+    - The full space of programs
+    - A type system carves out a permitted region
+    - Caption: ill-typed programs are excluded before runtime
+
+42. [bullets] Types as program constraints
+    - A type signature is a called shot at composition
+    - Landed: the program compiles, a witness of well-formedness
+    - Missed: a refutation, before a single test runs
+    - The type system lowers the upper bound, refusal by refusal
+
+43. [diagram] Two bounds on the index set
+    - The Rice-Shapiro picture, with both bounds drawn
+    - Lower bound (witnesses from tests) creeping up from inside
+    - Upper bound (refusals from types) creeping down from outside
+    - The undecidable middle, shaded, between them
+    - Caption: the gap between the bounds is where the bugs live
+
+
+=== V. CLOSE (2 slides) ===
+
+44. [bullets] The landing
+    - Rice-Shapiro still stands. The set is still undecidable.
+    - We never decide the set.
+    - We call our shots, from both sides, until what is left is small enough to ship.
+
+45. [bullets] Questions
+    - Thank you
+    - References on request
+
+
+=== ADDITIONAL DIAGRAM SUGGESTIONS ===
+
+Diagrams not pinned to a slide above, available if a beat needs reinforcement:
+
+- A "claim / witness / verdict" template, repeated three times across Archimedes, Newton, Popper. Three columns, identical structure, different content. Reinforces that the three eras are the same shape.
+- A timeline strip: Archimedes (~250 BCE), Galileo (1610), Newton (1687), Mercury anomaly (1859), Popper (1934), Goedel (1931), Turing (1936), Rice (1953), Rice-Shapiro (1956). Useful as a single recap slide if slide 32 needs visual support.
+- A Popper asymmetry diagram: a thousand white swans, one black swan, only the black swan moves the verdict. Could replace or accompany slide 29.
+- An "is_even worked example" diagram for the dithering section: the function under test, a handful of called shots (fn(2), fn(3), fn(4), fn(7)), each labeled witness or refutation. Could sit between slides 38 and 39.
