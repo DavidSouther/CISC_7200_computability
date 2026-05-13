@@ -4,12 +4,10 @@ Outline:
 
 
 Theorems: Rice & Rice-Shapiro, Contrapositives, diagrams, plain English
-Falsification: How do I know you're right?
+Falsifier? I just met her!
   Anctients: Archimedes, Pythagoreans, Ecclesiastes, Genesis
   Enlightenment: Galileo, Hume, Descartes, Newton 
-  Modern: Freud, Popper, Feynman, Shapiro
-Interlude: The Count and the Myth
-Certainty: Pearson and Null Hypothesis testing
+  Modern: Freud, Popper, Feynman, Shapiro, Pearson
 Practice: Dithering around a region of interest
 
 
@@ -47,9 +45,10 @@ Let's look at examples through history people asking proof of a statement. The e
 
 Jumping ahead to the enlightenment- Galileo, and yet it moves. Hume- induction. Newton- analysis and motion nailed predictions. That's it, that's all of science? Newton solved it, it's perfect. ... is it?
 
-Mercury's orbit is mis-predicted. Einstein opens an entirely new regime of which Newton is a subset. Freud starts gaffing about oedipal complexes. Popper says that Newton is a better scientist than Freud, because falsifiability. Feynman doesn't care about Freud but says the same thing about nature. (Connects to mind body duality- mind doesn't matter, Nature matters.) but math is perfect, there's no contradictions, it's beautiful, the physicists must be wrong! No, the math is incomplete. Gödel says it, Turing says it, Rice says it. Popper and Shapiro show us how we can begin to recover those two.
+Mercury's orbit is mis-predicted. Einstein opens an entirely new regime of which Newton is a subset. Freud starts gaffing about oedipal complexes. Popper says that Newton is a better scientist than Freud, because falsifiability.  But we know math is perfect, there's no contradictions, it's beautiful - the physicists must be wrong! No, the math is incomplete. Gödel says it, Turing says it, Rice says it. Shapiro show us how we can begin to recover those two.
 
-Interlude:
+# Falsifier? I just met her!
+
 So math is all inductive because you can start with axioms and build whatever you want. But the things you can build might not describe the real world. You use math to find what you expect to count. Why is that important?
 
 We have the "real world" of counting and the "language world" of stories. The Count and the Myth. Tell all the stories you want- some are true, some are fiction, some are lies, some are fancy. This isn't a literature class, so we won't spend time categorizing those. If you want to learn more of this, review the literature on Mythos vs Logos.
@@ -58,13 +57,15 @@ We have the "real world" of counting and the "language world" of stories. The Co
 
 We're going to stick with math and software, so we're back to the diagram of functions, algorithms, and progams - and the things in the real world. We're looking for mappings, two chunks of mappings. The first down here is describing certain parts of the world with their counting theory, and finding functions that accurately model that part of the world. It might be a business process or scientific observations, whatever. Then up on the top, we need to find a program that accurately conveys that function, and run it on a specific piece of hardware (that just counts). This is the computational mind-body duality of Descartes.
 
+<!--
 Strength of claims
 
 Popper and Shapiro both point out that any one negative example disproves a claim. Mercury's orbit disproved Newton. A sane guy with a crazy mom disproves Freud. (quotes from Popper's Logic of Scientific Theory) Those claims have distinct qualia. One is nebulous; a claimed counterexample moves the goal posts so to speak. The theory adapts to the facts. The other is specific, and admits when it's wrong.
 
 Pearson develops the T Test to tell you how confident you can be of a certain claim after a certain number of observations. (Can you think of this in terms of Cauchy?) 
+-->
 
-In Practice: 
+Practice: Dithering around a region of interest
 
 All of that, leads us to a really simple statement. You can prove your program is correct enough by writing a unit test.
 
@@ -74,6 +75,17 @@ Zoom in on this business process, and overlay the Rice-Shapiro diagram on that.
 
 When we write our program for this function, we can then run it twice - once with a value over here, that should complete with a positive result, and once with a value over there, that should (with some max number of steps) complete with a negative result.
 
+For the is_even test, 
+
 Or maybe we're not sure specific values, then we can perform dithering. 
 
 <Digram with loose dithering, to find points with and without the property of interest.>
+But also, 
+
+Rice-Shapiro says things about _functions_, which are semantic. It doesn't say anything about _syntax_, which is amenable to formal proofs for _some_ subsets of interesting properties. 
+
+<diagram of a type system constraining outer behavior>
+
+As a working software engineer, we can use type systems to constrain _programs_, to have certainty we aren't hitting some classes of "bugs".
+
+<diagram of dithering inner boundary + constrained outer boundary.>
