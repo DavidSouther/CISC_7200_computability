@@ -1,17 +1,9 @@
 % !TEX program = pdflatex
 % Falsifier? I just met her! -- CISC 7200 final, 14 May 2026
-% Aesthetic: Keenan Crane-inspired. Palatino body via mathpazo,
 % metropolis structure with chrome stripped, lavender accent.
 
 \documentclass[aspectratio=169]{beamer}
 
-% Build outputs:
-%   pdflatex slides.tex
-%       -> slides.pdf            (clean deck)
-%   pdflatex -jobname=slides_notes "\def\WithNotes{1}\input{slides.tex}"
-%       -> slides_notes.pdf      (frame, notes, frame, notes, ...)
-%   pdflatex -jobname=notes "\def\OnlyNotes{1}\input{slides.tex}"
-%       -> notes.pdf             (notes pages only)
 \ifdefined\OnlyNotes
   \setbeameroption{show only notes}
 \else
@@ -20,109 +12,14 @@
   \fi
 \fi
 
-\usetheme[progressbar=none,
-          numbering=none,
-          block=fill,
-          sectionpage=simple,
-          titleformat title=regular,
-          titleformat frame=regular,
-          background=light]{metropolis}
-
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{mathpazo}
-\linespread{1.06}
+\input{theme}
 
 \usepackage{amsmath,amssymb,amsthm}
-\usepackage{tikz}
-\usetikzlibrary{calc, decorations.pathmorphing, positioning, arrows.meta, fit, backgrounds, shapes.geometric}
-
-%%% ----- Crane palette -----
-\definecolor{cranelavender}{HTML}{C3C4E3}
-\definecolor{cranelavlite}{HTML}{E4E5F2}
-\definecolor{cranetext}{HTML}{1A1A1A}
-\definecolor{cranemute}{HTML}{6E6E78}
-\definecolor{craneref}{HTML}{8C1D40}
-\definecolor{cranerefbg}{HTML}{F3DCE3}
-
-\setbeamercolor{normal text}{fg=cranetext, bg=white}
-\setbeamercolor{frametitle}{fg=cranetext, bg=white}
-\setbeamercolor{title}{fg=cranetext}
-\setbeamercolor{subtitle}{fg=cranemute}
-\setbeamercolor{author}{fg=cranetext}
-\setbeamercolor{date}{fg=cranemute}
-\setbeamercolor{section title}{fg=cranetext}
-\setbeamercolor{progress bar}{fg=cranelavender}
-\setbeamercolor{title separator}{fg=cranelavender}
-\setbeamercolor{background canvas}{bg=white}
-\setbeamercolor{alerted text}{fg=craneref}
-\setbeamercolor{block title}{fg=cranetext, bg=cranelavlite}
-\setbeamercolor{block body}{fg=cranetext, bg=cranelavlite}
-
-%%% ----- Serif body, italic titles -----
-\usefonttheme{serif}
-\setbeamerfont{frametitle}{family=\rmfamily, shape=\itshape, series=\mdseries, size=\Large}
-\setbeamerfont{title}{family=\rmfamily, shape=\itshape, series=\mdseries, size=\Huge}
-\setbeamerfont{subtitle}{family=\rmfamily, shape=\itshape, size=\large}
-\setbeamerfont{author}{family=\rmfamily, shape=\upshape}
-\setbeamerfont{date}{family=\rmfamily, shape=\upshape, size=\small}
-\setbeamerfont{section title}{family=\rmfamily, shape=\itshape, size=\Huge}
-\setbeamerfont{block title}{family=\rmfamily, shape=\itshape, series=\mdseries}
-\setbeamerfont{itemize/enumerate body}{size=\normalsize}
-\setbeamerfont{itemize/enumerate subbody}{size=\small}
-
-% Bullets: thin, lavender
-\setbeamertemplate{itemize item}{\textcolor{cranelavender}{\rule[0.25ex]{0.5em}{0.5pt}}}
-\setbeamertemplate{itemize subitem}{\textcolor{cranemute}{\textendash}}
-\setbeamertemplate{itemize subsubitem}{\textcolor{cranemute}{$\cdot$}}
-
-% Full-bleed lavender section divider
-\setbeamertemplate{section page}{%
-  \begin{tikzpicture}[remember picture, overlay]
-    \fill[cranelavender] (current page.south west) rectangle (current page.north east);
-  \end{tikzpicture}%
-  \vfill
-  \begin{center}
-    {\usebeamerfont{section title}\itshape\insertsectionhead}
-  \end{center}
-  \vfill
-}
-
-% Title page: lavender top band, italic title, simple
-\setbeamertemplate{title page}{%
-  \begin{tikzpicture}[remember picture, overlay]
-    \fill[cranelavender] (current page.north west) rectangle ([yshift=-3.6cm]current page.north east);
-  \end{tikzpicture}%
-  \vspace*{0.6cm}
-  \begin{minipage}[t]{\textwidth}
-    \raggedright
-    {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\par\vspace{0.35em}
-    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\par
-  \end{minipage}
-  \vspace{2.0cm}
-  \begin{minipage}{\textwidth}
-    \raggedright
-    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\par\vspace{0.15em}
-    {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}\par
-  \end{minipage}
-}
 
 %%% ----- Math helpers -----
 \newcommand{\IS}{I_{S}}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\re}{\textsl{r.e.}}
-
-%%% ----- TikZ styles -----
-\tikzset{
-  craneblob/.style={draw=cranemute, line width=0.7pt, rounded corners=10pt, fill=white},
-  cranedivide/.style={draw=cranemute, line width=0.7pt, decorate, decoration={random steps, segment length=8pt, amplitude=2.5pt}},
-  cranelabel/.style={font=\rmfamily\itshape, text=cranetext},
-  cranedot/.style={circle, fill=cranetext, inner sep=0pt, minimum size=4pt},
-  cranewit/.style={circle, fill=cranelavender, draw=cranetext, line width=0.4pt, inner sep=0pt, minimum size=5pt},
-  cranerefdot/.style={circle, fill=craneref, draw=craneref, inner sep=0pt, minimum size=5pt},
-  cranenode/.style={font=\rmfamily, text=cranetext, inner sep=4pt},
-  cranearrow/.style={-{Stealth[length=4pt, width=4pt]}, draw=cranetext, line width=0.6pt},
-}
 
 \title{Falsifier? I just met her!}
 \subtitle{CISC 7200 final}
@@ -184,7 +81,7 @@
     \item \emph{Non-trivial:} every other partition
   \end{itemize}
   \vfill
-  {\small\itshape\color{cranemute}
+  {\small\itshape\color{color_mute}
    $\IS$ asks of a function whether it has the property, not of a number whether it satisfies one.}
 \end{frame}
 \note{%
@@ -208,14 +105,14 @@
   \centering
   \begin{tikzpicture}[scale=1.0]
     % Universe blob
-    \node[craneblob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
     % Wavy divider
-    \draw[cranedivide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
-    \node[cranelabel] at (-3.3, 2.0) {$S$};
-    \node[cranelabel] at (3.3, 2.0) {$\overline{S}$};
-    \node[cranelabel, text=cranemute, font=\rmfamily\itshape\small]
+    \draw[space_divide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[figure_label] at (-3.3, 2.0) {$S$};
+    \node[figure_label] at (3.3, 2.0) {$\overline{S}$};
+    \node[figure_label, text=color_mute, font=\rmfamily\itshape\small]
       at (0, -3.2) {undecidable which side a given index lands on};
-    \node[cranelabel, font=\rmfamily\small, text=cranemute]
+    \node[figure_label, font=\rmfamily\small, text=color_mute]
       at (0, 3.0) {partial computable functions};
   \end{tikzpicture}
 \end{frame}
@@ -239,18 +136,18 @@
 \begin{frame}{Rice's theorem, as a diagram}
   \centering
   \begin{tikzpicture}[node distance=3.6cm and 5.0cm]
-    \node[cranenode] (IS)   at (0, 2.4)  {$\IS$};
-    \node[cranenode] (f)    at (6, 2.4)  {$f$};
-    \node[cranenode] (S)    at (0, 0)    {$S$};
-    \node[cranenode] (dec)  at (6, 0)    {decidable};
+    \node[diagram_node] (IS)   at (0, 2.4)  {$\IS$};
+    \node[diagram_node] (f)    at (6, 2.4)  {$f$};
+    \node[diagram_node] (S)    at (0, 0)    {$S$};
+    \node[diagram_node] (dec)  at (6, 0)    {decidable};
 
-    \draw[cranearrow] (S) -- (IS) node[midway, left, cranelabel, font=\rmfamily\itshape\small] {index};
-    \draw[cranearrow] (IS) -- (f) node[midway, above, cranelabel, font=\rmfamily\itshape\small] {cases};
-    \draw[cranearrow] (S) -- (dec) node[midway, below, cranelabel, font=\rmfamily\itshape\small] {assume};
-    \draw[cranearrow] (f) -- (dec) node[midway, right, cranelabel, font=\rmfamily\itshape\small] {contradiction};
+    \draw[diagram_arrow] (S) -- (IS) node[midway, left, figure_label, font=\rmfamily\itshape\small] {index};
+    \draw[diagram_arrow] (IS) -- (f) node[midway, above, figure_label, font=\rmfamily\itshape\small] {cases};
+    \draw[diagram_arrow] (S) -- (dec) node[midway, below, figure_label, font=\rmfamily\itshape\small] {assume};
+    \draw[diagram_arrow] (f) -- (dec) node[midway, right, figure_label, font=\rmfamily\itshape\small] {contradiction};
   \end{tikzpicture}
   \vskip 1em
-  {\small\itshape\color{cranemute} Same proof, drawn as a fixed-point square.}
+  {\small\itshape\color{color_mute} Same proof, drawn as a fixed-point square.}
 \end{frame}
 
 \begin{frame}{Rice's theorem, contrapositive}
@@ -268,25 +165,25 @@
     \item \emph{Shapiro.} $f \in S \iff \exists\, \text{finite } g \subseteq f \text{ with } g \in S$.
   \end{itemize}
   \vskip 0.6em
-  {\small\itshape\color{cranemute}
+  {\small\itshape\color{color_mute}
    The word that earns its keep here is \emph{finite}.}
 \end{frame}
 
 \begin{frame}{Rice--Shapiro, the witness}
   \centering
   \begin{tikzpicture}[scale=1.0]
-    \node[craneblob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
-    \draw[cranedivide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
-    \node[cranelabel] at (-3.3, 2.0) {$S$};
-    \node[cranelabel] at (3.3, 2.0) {$\overline{S}$};
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[space_divide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[figure_label] at (-3.3, 2.0) {$S$};
+    \node[figure_label] at (3.3, 2.0) {$\overline{S}$};
     % Candidate f cloud on left
-    \node[cranewit] (g1) at (-3.0, 0.6) {};
-    \node[cranewit] (g2) at (-2.2, 1.1) {};
-    \node[cranewit] (g3) at (-2.5, -0.2) {};
-    \node[cranewit] (g4) at (-1.6, 0.2) {};
-    \node[cranewit] (g5) at (-1.2, -0.9) {};
-    \node[cranelabel, font=\rmfamily\itshape\small] at (-2.2, 1.7) {$g \subseteq f$};
-    \node[cranelabel, text=cranemute, font=\rmfamily\itshape\small]
+    \node[witness_dot] (g1) at (-3.0, 0.6) {};
+    \node[witness_dot] (g2) at (-2.2, 1.1) {};
+    \node[witness_dot] (g3) at (-2.5, -0.2) {};
+    \node[witness_dot] (g4) at (-1.6, 0.2) {};
+    \node[witness_dot] (g5) at (-1.2, -0.9) {};
+    \node[figure_label, font=\rmfamily\itshape\small] at (-2.2, 1.7) {$g \subseteq f$};
+    \node[figure_label, text=color_mute, font=\rmfamily\itshape\small]
       at (0, -3.2) {a finite $g$ on the $S$ side: $f$ remains a candidate};
   \end{tikzpicture}
 \end{frame}
@@ -294,21 +191,21 @@
 \begin{frame}{Rice--Shapiro, the refutation}
   \centering
   \begin{tikzpicture}[scale=1.0]
-    \node[craneblob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
-    \draw[cranedivide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
-    \node[cranelabel] at (-3.3, 2.0) {$S$};
-    \node[cranelabel] at (3.3, 2.0) {$\overline{S}$};
-    \node[cranewit] (g1) at (-3.0, 0.6) {};
-    \node[cranewit] (g2) at (-2.2, 1.1) {};
-    \node[cranewit] (g3) at (-2.5, -0.2) {};
-    \node[cranewit] (g4) at (-1.6, 0.2) {};
-    \node[cranewit] (g5) at (-1.2, -0.9) {};
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[space_divide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[figure_label] at (-3.3, 2.0) {$S$};
+    \node[figure_label] at (3.3, 2.0) {$\overline{S}$};
+    \node[witness_dot] (g1) at (-3.0, 0.6) {};
+    \node[witness_dot] (g2) at (-2.2, 1.1) {};
+    \node[witness_dot] (g3) at (-2.5, -0.2) {};
+    \node[witness_dot] (g4) at (-1.6, 0.2) {};
+    \node[witness_dot] (g5) at (-1.2, -0.9) {};
     % The refuting point
-    \node[cranerefdot] (gx) at (2.0, 0.4) {};
-    \draw[craneref, line width=0.6pt] (gx) circle (0.32cm);
-    \node[cranelabel, text=craneref, font=\rmfamily\itshape\small]
+    \node[refutation_dot] (gx) at (2.0, 0.4) {};
+    \draw[color_accent, line width=0.6pt] (gx) circle (0.32cm);
+    \node[figure_label, text=color_accent, font=\rmfamily\itshape\small]
       at (2.0, 1.1) {refutation};
-    \node[cranelabel, text=cranemute, font=\rmfamily\itshape\small]
+    \node[figure_label, text=color_mute, font=\rmfamily\itshape\small]
       at (0, -3.2) {one finite point on the wrong side: $f \notin S$};
   \end{tikzpicture}
 \end{frame}
@@ -316,14 +213,14 @@
 \begin{frame}{Rice--Shapiro, proof}
   \vfill
   \centering
-  {\large\itshape\color{cranemute} sketch to come}
+  {\large\itshape\color{color_mute} sketch to come}
   \vfill
 \end{frame}
 
 \begin{frame}{Rice--Shapiro, as a diagram}
   \vfill
   \centering
-  {\large\itshape\color{cranemute} category-theory diagram to come}
+  {\large\itshape\color{color_mute} category-theory diagram to come}
   \vfill
 \end{frame}
 
@@ -350,7 +247,7 @@
     \item The rest of the scientific world had been working on it for a while.
   \end{itemize}
   \vskip 0.6em
-  {\small\itshape\color{cranemute} Let's talk some history.}
+  {\small\itshape\color{color_mute} Let's talk some history.}
 \end{frame}
 
 \end{document}

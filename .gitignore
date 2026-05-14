@@ -1,3 +1,11 @@
 *.pdf
 *.aux
 *.log
+
+# beamer build artifacts
+*.nav
+*.snm
+*.toc
+*.out
+*.vrb
+*.synctex.gz

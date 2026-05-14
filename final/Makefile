@@ -11,7 +11,7 @@ SOURCES  = slides.tex theme.tex
 
 .PHONY: all slides notes both clean
 
-all: slides both notes
+all: slides both notes cleanup
 
 slides: slides.pdf
 notes:  notes.pdf
@@ -19,14 +19,11 @@ both:   slides_notes.pdf
 
 slides.pdf: $(SOURCES)
 	$(PDFLATEX) slides.tex
-	$(PDFLATEX) slides.tex
 
 slides_notes.pdf: $(SOURCES)
 	$(PDFLATEX) -jobname=slides_notes "\def\WithNotes{1}\input{slides.tex}"
-	$(PDFLATEX) -jobname=slides_notes "\def\WithNotes{1}\input{slides.tex}"
 
 notes.pdf: $(SOURCES)
-	$(PDFLATEX) -jobname=notes "\def\OnlyNotes{1}\input{slides.tex}"
 	$(PDFLATEX) -jobname=notes "\def\OnlyNotes{1}\input{slides.tex}"
 
 cleanup:
