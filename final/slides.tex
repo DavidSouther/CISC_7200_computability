@@ -1,0 +1,356 @@
+% !TEX program = pdflatex
+% Falsifier? I just met her! -- CISC 7200 final, 14 May 2026
+% Aesthetic: Keenan Crane-inspired. Palatino body via mathpazo,
+% metropolis structure with chrome stripped, lavender accent.
+
+\documentclass[aspectratio=169]{beamer}
+
+% Build outputs:
+%   pdflatex slides.tex
+%       -> slides.pdf            (clean deck)
+%   pdflatex -jobname=slides_notes "\def\WithNotes{1}\input{slides.tex}"
+%       -> slides_notes.pdf      (frame, notes, frame, notes, ...)
+%   pdflatex -jobname=notes "\def\OnlyNotes{1}\input{slides.tex}"
+%       -> notes.pdf             (notes pages only)
+\ifdefined\OnlyNotes
+  \setbeameroption{show only notes}
+\else
+  \ifdefined\WithNotes
+    \setbeameroption{show notes}
+  \fi
+\fi
+
+\usetheme[progressbar=none,
+          numbering=none,
+          block=fill,
+          sectionpage=simple,
+          titleformat title=regular,
+          titleformat frame=regular,
+          background=light]{metropolis}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo}
+\linespread{1.06}
+
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz}
+\usetikzlibrary{calc, decorations.pathmorphing, positioning, arrows.meta, fit, backgrounds, shapes.geometric}
+
+%%% ----- Crane palette -----
+\definecolor{cranelavender}{HTML}{C3C4E3}
+\definecolor{cranelavlite}{HTML}{E4E5F2}
+\definecolor{cranetext}{HTML}{1A1A1A}
+\definecolor{cranemute}{HTML}{6E6E78}
+\definecolor{craneref}{HTML}{8C1D40}
+\definecolor{cranerefbg}{HTML}{F3DCE3}
+
+\setbeamercolor{normal text}{fg=cranetext, bg=white}
+\setbeamercolor{frametitle}{fg=cranetext, bg=white}
+\setbeamercolor{title}{fg=cranetext}
+\setbeamercolor{subtitle}{fg=cranemute}
+\setbeamercolor{author}{fg=cranetext}
+\setbeamercolor{date}{fg=cranemute}
+\setbeamercolor{section title}{fg=cranetext}
+\setbeamercolor{progress bar}{fg=cranelavender}
+\setbeamercolor{title separator}{fg=cranelavender}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{alerted text}{fg=craneref}
+\setbeamercolor{block title}{fg=cranetext, bg=cranelavlite}
+\setbeamercolor{block body}{fg=cranetext, bg=cranelavlite}
+
+%%% ----- Serif body, italic titles -----
+\usefonttheme{serif}
+\setbeamerfont{frametitle}{family=\rmfamily, shape=\itshape, series=\mdseries, size=\Large}
+\setbeamerfont{title}{family=\rmfamily, shape=\itshape, series=\mdseries, size=\Huge}
+\setbeamerfont{subtitle}{family=\rmfamily, shape=\itshape, size=\large}
+\setbeamerfont{author}{family=\rmfamily, shape=\upshape}
+\setbeamerfont{date}{family=\rmfamily, shape=\upshape, size=\small}
+\setbeamerfont{section title}{family=\rmfamily, shape=\itshape, size=\Huge}
+\setbeamerfont{block title}{family=\rmfamily, shape=\itshape, series=\mdseries}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\small}
+
+% Bullets: thin, lavender
+\setbeamertemplate{itemize item}{\textcolor{cranelavender}{\rule[0.25ex]{0.5em}{0.5pt}}}
+\setbeamertemplate{itemize subitem}{\textcolor{cranemute}{\textendash}}
+\setbeamertemplate{itemize subsubitem}{\textcolor{cranemute}{$\cdot$}}
+
+% Full-bleed lavender section divider
+\setbeamertemplate{section page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[cranelavender] (current page.south west) rectangle (current page.north east);
+  \end{tikzpicture}%
+  \vfill
+  \begin{center}
+    {\usebeamerfont{section title}\itshape\insertsectionhead}
+  \end{center}
+  \vfill
+}
+
+% Title page: lavender top band, italic title, simple
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[cranelavender] (current page.north west) rectangle ([yshift=-3.6cm]current page.north east);
+  \end{tikzpicture}%
+  \vspace*{0.6cm}
+  \begin{minipage}[t]{\textwidth}
+    \raggedright
+    {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\par\vspace{0.35em}
+    {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\par
+  \end{minipage}
+  \vspace{2.0cm}
+  \begin{minipage}{\textwidth}
+    \raggedright
+    {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\par\vspace{0.15em}
+    {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}\par
+  \end{minipage}
+}
+
+%%% ----- Math helpers -----
+\newcommand{\IS}{I_{S}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\re}{\textsl{r.e.}}
+
+%%% ----- TikZ styles -----
+\tikzset{
+  craneblob/.style={draw=cranemute, line width=0.7pt, rounded corners=10pt, fill=white},
+  cranedivide/.style={draw=cranemute, line width=0.7pt, decorate, decoration={random steps, segment length=8pt, amplitude=2.5pt}},
+  cranelabel/.style={font=\rmfamily\itshape, text=cranetext},
+  cranedot/.style={circle, fill=cranetext, inner sep=0pt, minimum size=4pt},
+  cranewit/.style={circle, fill=cranelavender, draw=cranetext, line width=0.4pt, inner sep=0pt, minimum size=5pt},
+  cranerefdot/.style={circle, fill=craneref, draw=craneref, inner sep=0pt, minimum size=5pt},
+  cranenode/.style={font=\rmfamily, text=cranetext, inner sep=4pt},
+  cranearrow/.style={-{Stealth[length=4pt, width=4pt]}, draw=cranetext, line width=0.6pt},
+}
+
+\title{Falsifier? I just met her!}
+\subtitle{CISC 7200 final}
+\author{David Souther}
+\date{14 May 2026}
+
+\begin{document}
+
+%%% ============================================================
+%%% I. OPENING
+%%% ============================================================
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+\note{%
+  In this talk, we're going to talk about ``falsification''. You've just come across someone who's made a boast, or some claim about the world we live in. Do you believe them? Should you believe them? How would you decide when to believe them?
+
+  Our friend Shapiro, and his colleagues Karl Popper and many others, have given us a very straightforward way, a mathematically provable way, to make that call.
+}
+
+\begin{frame}{Overview}
+  \begin{itemize}
+    \item When do you actually believe someone?
+    \item Rice--Shapiro: one counterexample is enough to discredit
+    \item What can a working software engineer do with that?
+  \end{itemize}
+\end{frame}
+\note{%
+  We'll start by re-treading Rice and Rice--Shapiro, just to stay on firm mathematical ground with proofs and everything. Then we'll throw that away to talk about what it means for philosophy and trusting people you talk to.
+
+  Popper says the same thing as Shapiro, though in more words than symbols. We'll get into him in depth later, but Popper's main claim is that if you want to do science, if you want to really know the world, your description has to be clear enough that I have a chance to refute it.
+
+  And at the end of this, I'm going to bring it back to my field, software engineering, and ostensibly Computer Science as well, and talk about how we can use these ideas to really ensure we're engineering the best software we can. Because every computer program is, actually, a proof of some theorem.
+}
+
+\begin{frame}{Roadmap}
+  \begin{itemize}
+    \item \emph{Theorems.} Rice and Rice--Shapiro
+    \item \emph{History.} Archimedes, Newton, Popper
+    \item \emph{Practice.} Tests and types
+  \end{itemize}
+\end{frame}
+\note{%
+  So that's the big picture. Here's a roadmap of how we'll get there. We're going to start with those theorems, like I said. The bulk of the talk is going to be an extended trip through history, checking in mainly with Archimedes, Newton, and this gentleman who might be a bit newer to you named Popper, and we'll see a few other friends along the way. Then we'll end with how Unit Testing and Typed Programming Languages give structure to those of us who practice software engineering.
+}
+
+%%% ============================================================
+%%% II. THEOREMS
+%%% ============================================================
+
+\section{Theorems}
+
+\begin{frame}{Setup}
+  \begin{itemize}
+    \item $S$, a set of partial computable functions
+    \item $\IS$, its index set
+    \item \emph{Trivial:} $S = \N$ or $S = \emptyset$
+    \item \emph{Non-trivial:} every other partition
+  \end{itemize}
+  \vfill
+  {\small\itshape\color{cranemute}
+   $\IS$ asks of a function whether it has the property, not of a number whether it satisfies one.}
+\end{frame}
+\note{%
+  Let's do a bit of setup. We start with $S$, a set of partial computable functions. Partial computable means that we're sure some natural numbers as inputs to this function will end with a value coming out, but we're not sure which ones.
+
+  We have an index set $\IS$ of that set $S$, so we can assign a number to each function in $S$. We're not talking about the concrete case of the properties of any single number in any single function, but rather a class of functions as a black box. If $S$ is ``functions that calculate whether an input number is even'', any particular function might be testable with 0, 1, 2, 5, and 8 and we'd be OK with it. But we want to say, of \emph{any} function: is it a function that figures out if a given value is even?
+
+  $S$ is the kinds of functions we want to identify, $\IS$ is a way to check if some function is in $S$. A couple points for completeness: $S$ is ``trivial'' if it's empty (no functions have this property, like ``the function is an elephant'') or if it's every function. Every function is a function, ok, yes, that's true thank you.
+}
+
+%%%---- Rice's theorem
+\begin{frame}{Rice's theorem}
+  \begin{block}{}
+    If $S$ is non-trivial, then $\IS$ is undecidable.
+  \end{block}
+  \vskip 0.7em
+  No general decision procedure can answer ``is this function in $S$?''
+\end{frame}
+
+\begin{frame}{Rice's theorem, drawn}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    % Universe blob
+    \node[craneblob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    % Wavy divider
+    \draw[cranedivide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[cranelabel] at (-3.3, 2.0) {$S$};
+    \node[cranelabel] at (3.3, 2.0) {$\overline{S}$};
+    \node[cranelabel, text=cranemute, font=\rmfamily\itshape\small]
+      at (0, -3.2) {undecidable which side a given index lands on};
+    \node[cranelabel, font=\rmfamily\small, text=cranemute]
+      at (0, 3.0) {partial computable functions};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Rice's theorem, proof}
+  \small
+  \begin{itemize}
+    \item Pick $a, b \in \N$ with $a \in S$ and $b \notin S$.
+    \item Define $f(e, x)$ by cases:
+      \begin{itemize}
+        \item $f(e, x) = \varphi_b(x)$ when $e \in S$
+        \item $f(e, x) = \varphi_a(x)$ when $e \notin S$
+      \end{itemize}
+    \item By s-m-n, there is $e$ with $\varphi_e(x) = f(e, x)$.
+    \item If $e \in S$ then $\varphi_e = \varphi_b$, but $b \notin S$.
+    \item If $e \notin S$ then $\varphi_e = \varphi_a$, but $a \in S$.
+    \item Either way: contradiction. \hfill$\square$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rice's theorem, as a diagram}
+  \centering
+  \begin{tikzpicture}[node distance=3.6cm and 5.0cm]
+    \node[cranenode] (IS)   at (0, 2.4)  {$\IS$};
+    \node[cranenode] (f)    at (6, 2.4)  {$f$};
+    \node[cranenode] (S)    at (0, 0)    {$S$};
+    \node[cranenode] (dec)  at (6, 0)    {decidable};
+
+    \draw[cranearrow] (S) -- (IS) node[midway, left, cranelabel, font=\rmfamily\itshape\small] {index};
+    \draw[cranearrow] (IS) -- (f) node[midway, above, cranelabel, font=\rmfamily\itshape\small] {cases};
+    \draw[cranearrow] (S) -- (dec) node[midway, below, cranelabel, font=\rmfamily\itshape\small] {assume};
+    \draw[cranearrow] (f) -- (dec) node[midway, right, cranelabel, font=\rmfamily\itshape\small] {contradiction};
+  \end{tikzpicture}
+  \vskip 1em
+  {\small\itshape\color{cranemute} Same proof, drawn as a fixed-point square.}
+\end{frame}
+
+\begin{frame}{Rice's theorem, contrapositive}
+  \begin{block}{}
+    If $\IS$ is decidable, then $S$ is trivial.
+  \end{block}
+  \vskip 0.7em
+  The only decidable function properties are no property at all.
+\end{frame}
+
+%%%---- Rice-Shapiro
+\begin{frame}{Rice--Shapiro}
+  \begin{itemize}
+    \item \emph{Rice.} If $S$ is non-trivial, then $\IS$ is undecidable.
+    \item \emph{Shapiro.} $f \in S \iff \exists\, \text{finite } g \subseteq f \text{ with } g \in S$.
+  \end{itemize}
+  \vskip 0.6em
+  {\small\itshape\color{cranemute}
+   The word that earns its keep here is \emph{finite}.}
+\end{frame}
+
+\begin{frame}{Rice--Shapiro, the witness}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[craneblob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[cranedivide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[cranelabel] at (-3.3, 2.0) {$S$};
+    \node[cranelabel] at (3.3, 2.0) {$\overline{S}$};
+    % Candidate f cloud on left
+    \node[cranewit] (g1) at (-3.0, 0.6) {};
+    \node[cranewit] (g2) at (-2.2, 1.1) {};
+    \node[cranewit] (g3) at (-2.5, -0.2) {};
+    \node[cranewit] (g4) at (-1.6, 0.2) {};
+    \node[cranewit] (g5) at (-1.2, -0.9) {};
+    \node[cranelabel, font=\rmfamily\itshape\small] at (-2.2, 1.7) {$g \subseteq f$};
+    \node[cranelabel, text=cranemute, font=\rmfamily\itshape\small]
+      at (0, -3.2) {a finite $g$ on the $S$ side: $f$ remains a candidate};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Rice--Shapiro, the refutation}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[craneblob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[cranedivide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[cranelabel] at (-3.3, 2.0) {$S$};
+    \node[cranelabel] at (3.3, 2.0) {$\overline{S}$};
+    \node[cranewit] (g1) at (-3.0, 0.6) {};
+    \node[cranewit] (g2) at (-2.2, 1.1) {};
+    \node[cranewit] (g3) at (-2.5, -0.2) {};
+    \node[cranewit] (g4) at (-1.6, 0.2) {};
+    \node[cranewit] (g5) at (-1.2, -0.9) {};
+    % The refuting point
+    \node[cranerefdot] (gx) at (2.0, 0.4) {};
+    \draw[craneref, line width=0.6pt] (gx) circle (0.32cm);
+    \node[cranelabel, text=craneref, font=\rmfamily\itshape\small]
+      at (2.0, 1.1) {refutation};
+    \node[cranelabel, text=cranemute, font=\rmfamily\itshape\small]
+      at (0, -3.2) {one finite point on the wrong side: $f \notin S$};
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Rice--Shapiro, proof}
+  \vfill
+  \centering
+  {\large\itshape\color{cranemute} sketch to come}
+  \vfill
+\end{frame}
+
+\begin{frame}{Rice--Shapiro, as a diagram}
+  \vfill
+  \centering
+  {\large\itshape\color{cranemute} category-theory diagram to come}
+  \vfill
+\end{frame}
+
+\begin{frame}{Rice--Shapiro, contrapositive}
+  \begin{itemize}
+    \item If $g \in S$ and some finite $h \subseteq g$ has $h \notin S$, then $\IS$ is not \re
+    \item The witness can refute, not just confirm.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Plain English, all four}
+  \begin{itemize}
+    \item \emph{Rice.} Non-trivial behavioral properties are undecidable.
+    \item \emph{Rice, contrapositive.} Decidable means trivial.
+    \item \emph{Rice--Shapiro.} Behavior is fixed by finite evidence.
+    \item \emph{Rice--Shapiro, contrapositive.} One finite witness against you, and the index set is not even \re
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bridge to history}
+  \begin{itemize}
+    \item Rice--Shapiro: one counterexample is enough.
+    \item Mathematicians arrived here in 1956.
+    \item The rest of the scientific world had been working on it for a while.
+  \end{itemize}
+  \vskip 0.6em
+  {\small\itshape\color{cranemute} Let's talk some history.}
+\end{frame}
+
+\end{document}
