@@ -1,0 +1,178 @@
+% theme.tex -- Crane-inspired beamer theme.
+% Palatino body via mathpazo, metropolis structure with chrome stripped,
+% lavender accent. Loaded by `\input{theme}` from slides.tex.
+
+\usetheme[progressbar=none,
+          numbering=none,
+          block=fill,
+          sectionpage=simple,
+          titleformat title=regular,
+          titleformat frame=regular,
+          background=light]{metropolis}
+
+%%% ----- Fonts -----
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathpazo}
+\linespread{1.06}
+
+%%% ----- TikZ -----
+\usepackage{tikz}
+\usetikzlibrary{calc, decorations.pathmorphing, positioning, arrows.meta, fit, backgrounds, shapes.geometric}
+
+%%% ----- Rounded box (used in print-friendly note pages) -----
+\usepackage[skins]{tcolorbox}
+
+%%% ----- Semantic palette -----
+% primary       : main accent (title band, section divider, bullets, witness dots)
+% primary_light : block backgrounds, secondary fill tint
+% text          : body text, near-black
+% mute          : muted gray for asides, subtitle, captions
+% accent        : rare warm emphasis for refutation / alerted text
+\definecolor{color_primary}{HTML}{C3C4E3}
+\definecolor{color_primary_light}{HTML}{E4E5F2}
+\definecolor{color_text}{HTML}{1A1A1A}
+\definecolor{color_mute}{HTML}{6E6E78}
+\definecolor{color_accent}{HTML}{8C1D40}
+
+\setbeamercolor{normal text}{fg=color_text, bg=white}
+\setbeamercolor{frametitle}{fg=color_text, bg=white}
+\setbeamercolor{title}{fg=color_text}
+\setbeamercolor{subtitle}{fg=color_mute}
+\setbeamercolor{author}{fg=color_text}
+\setbeamercolor{date}{fg=color_mute}
+\setbeamercolor{section title}{fg=color_text}
+\setbeamercolor{progress bar}{fg=color_primary}
+\setbeamercolor{title separator}{fg=color_primary}
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{alerted text}{fg=color_accent}
+\setbeamercolor{block title}{fg=color_text, bg=color_primary_light}
+\setbeamercolor{block body}{fg=color_text, bg=color_primary_light}
+
+%%% ----- Serif body, italic titles -----
+\usefonttheme{serif}
+\setbeamerfont{frametitle}{family=\rmfamily, shape=\itshape, series=\mdseries, size=\Large}
+\setbeamerfont{title}{family=\rmfamily, shape=\itshape, series=\mdseries, size=\Huge}
+\setbeamerfont{subtitle}{family=\rmfamily, shape=\itshape, size=\large}
+\setbeamerfont{author}{family=\rmfamily, shape=\upshape}
+\setbeamerfont{date}{family=\rmfamily, shape=\upshape, size=\small}
+\setbeamerfont{section title}{family=\rmfamily, shape=\itshape, size=\Huge}
+\setbeamerfont{block title}{family=\rmfamily, shape=\itshape, series=\mdseries}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\small}
+
+% Bullets: thin, primary
+\setbeamertemplate{itemize item}{\textcolor{color_primary}{\rule[0.25ex]{0.5em}{0.5pt}}}
+\setbeamertemplate{itemize subitem}{\textcolor{color_mute}{\textendash}}
+\setbeamertemplate{itemize subsubitem}{\textcolor{color_mute}{$\cdot$}}
+
+%%% ----- Print-friendly mode -----
+% When building notes outputs (\WithNotes or \OnlyNotes), drop full-page
+% color fills in favor of rounded inset borders, and resize the output
+% paper to US Letter (landscape) so the deck prints on standard paper.
+% Slides projector build keeps the native 16:9 paper.
+\newif\ifprintfriendly
+\ifdefined\WithNotes\printfriendlytrue\fi
+\ifdefined\OnlyNotes\printfriendlytrue\fi
+
+\ifprintfriendly
+  \usepackage{pgfpages}
+  \pgfpagesuselayout{resize to}[letterpaper, landscape]
+\fi
+
+\ifprintfriendly
+  % Section divider: rounded inset border, italic name centered.
+  \setbeamertemplate{section page}{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \draw[color_primary, line width=0.8pt, rounded corners=10pt]
+        ([xshift=1.0cm, yshift=-1.0cm]current page.north west)
+        rectangle
+        ([xshift=-1.0cm, yshift=1.0cm]current page.south east);
+    \end{tikzpicture}%
+    \vfill
+    \begin{center}
+      {\usebeamerfont{section title}\itshape\insertsectionhead}
+    \end{center}
+    \vfill
+  }
+
+  % Title page: no top band, plain typography.
+  \setbeamertemplate{title page}{%
+    \vspace*{2.4cm}
+    \begin{minipage}[t]{\textwidth}
+      \raggedright
+      {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\par\vspace{0.35em}
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\par
+    \end{minipage}
+    \vspace{1.8cm}
+    \begin{minipage}{\textwidth}
+      \raggedright
+      {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\par\vspace{0.15em}
+      {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}\par
+    \end{minipage}
+  }
+
+  % Note pages: white background, rounded inset border, thumbnail top-right,
+  % heading top-left, notes flow below. No default gray strips.
+  \setbeamercolor{note page}{fg=color_text, bg=white}
+  \setbeamercolor{note title}{fg=color_text, bg=white}
+  \setbeamercolor{note date}{fg=color_mute, bg=white}
+  % Rounded inset border via tcolorbox. Robust in both `show notes`
+  % (interleaved) and `show only notes` (notes-only) builds.
+  \setbeamertemplate{note page}{%
+    \begin{tcolorbox}[
+      enhanced, arc=8pt, boxrule=0.6pt,
+      colback=white, colframe=color_primary,
+      left=12pt, right=12pt, top=6pt, bottom=6pt,
+      width=\dimexpr\paperwidth-1.2cm\relax,
+      before=\hspace*{0.6cm}, after=\hspace*{0.6cm}\par
+    ]
+      \hfill\insertslideintonotes{0.3}\par
+      \vspace{0.3cm}\par
+      \footnotesize\insertnote
+    \end{tcolorbox}%
+  }
+\else
+  % Full-bleed section divider (projection)
+  \setbeamertemplate{section page}{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \fill[color_primary] (current page.south west) rectangle (current page.north east);
+    \end{tikzpicture}%
+    \vfill
+    \begin{center}
+      {\usebeamerfont{section title}\itshape\insertsectionhead}
+    \end{center}
+    \vfill
+  }
+
+  % Title page: primary top band, italic title, simple (projection)
+  \setbeamertemplate{title page}{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \fill[color_primary] (current page.north west) rectangle ([yshift=-3.6cm]current page.north east);
+    \end{tikzpicture}%
+    \vspace*{0.6cm}
+    \begin{minipage}[t]{\textwidth}
+      \raggedright
+      {\usebeamerfont{title}\usebeamercolor[fg]{title}\inserttitle}\par\vspace{0.35em}
+      {\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle}\par
+    \end{minipage}
+    \vspace{2.0cm}
+    \begin{minipage}{\textwidth}
+      \raggedright
+      {\usebeamerfont{author}\usebeamercolor[fg]{author}\insertauthor}\par\vspace{0.15em}
+      {\usebeamerfont{date}\usebeamercolor[fg]{date}\insertdate}\par
+    \end{minipage}
+  }
+\fi
+
+%%% ----- TikZ styles -----
+\tikzset{
+  craneblob/.style={draw=color_mute, line width=0.7pt, rounded corners=10pt, fill=white},
+  cranedivide/.style={draw=color_mute, line width=0.7pt, decorate, decoration={random steps, segment length=8pt, amplitude=2.5pt}},
+  cranelabel/.style={font=\rmfamily\itshape, text=color_text},
+  cranedot/.style={circle, fill=color_text, inner sep=0pt, minimum size=4pt},
+  cranewit/.style={circle, fill=color_primary, draw=color_text, line width=0.4pt, inner sep=0pt, minimum size=5pt},
+  cranerefdot/.style={circle, fill=color_accent, draw=color_accent, inner sep=0pt, minimum size=5pt},
+  cranenode/.style={font=\rmfamily, text=color_text, inner sep=4pt},
+  cranearrow/.style={-{Stealth[length=4pt, width=4pt]}, draw=color_text, line width=0.6pt},
+}

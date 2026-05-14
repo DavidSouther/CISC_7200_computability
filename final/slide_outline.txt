@@ -237,42 +237,48 @@ Each slide is marked [bullets] or [diagram]. Bullet slides carry a short list of
 
 --- Popper ---
 
-27. [diagram] Popper, portrait
+27. [diagram] Karl Popper
     - Image: black and white portrait of Popper at the LSE
     - Caption: Karl Popper, 1902 to 1994
-
-28. [bullets] Popper, life
     - Vienna, schooled at the edge of the Vienna Circle
-    - Emigrates via New Zealand
+    - Emigrates to New Zealand before WW2
     - London School of Economics
     - "The Logic of Scientific Discovery," 1934
+
+> Karl Popper is one of the more influential philosophers of science in the 20th century. He grew up in Vienna, and his parents were close friends of Sigmund Freud's siser, Rosa Graf. He was also very sympathetic to early communist movements, but we'll see in a bit he sours on Marxism. He's able to flee Vienna before Nazi rule, to New Zealand, but after publishing his first seminal work "The Logic of Scientific Discovery."
 
 29. [bullets] Popper, the foil
     - Freud explains every behavior, in any direction
     - A theory that forbids nothing predicts nothing
     - The asymmetry: confirmation is cheap, refutation is decisive
 
+> The first part of Logic of Discovery is a critique of Freud and Marx. Again, he grows up around Freud, and notices this pattern. Whenever Freud makes a claim, 
+
+> This is even more problematic when Popper views Marxism. While the ideas of Marx and Engels in Das Kapital seem very persuasive, the violence of the Russian Revolution and the rise of Naziism really sour him on their scientific validity. Even moreso than Freud, Marxist revolutions in practice require contiuous ad-hoc refinement for any new data point that comes up. They just keep changing the so-called theory to meet whatever the leadership wants, that it's not what anyone could consider "scientific". This is later carried forward in "The Open Society", which, aside, is a shockingly relevant text for US politics today.
+
 30. [bullets] Popper, the rule
     - A claim is scientific if it forbids something
     - Science calls its shot before it takes it
     - One missed shot is enough
+
+> Popper's claim is that a scientific theory is one that can be falsified by evidence. A pseudoscientific claim may sound plausible, and a pseudoscientific practitioner will see examples _confirming_ their theory nearly anywhere they look. But that's easy and wrong. We must look for examples that _disprove_ our claims to understand when we've found where a theory fails.
+
+32. [bullets] Three eras, one discipline
+    - Archimedes shows something that could go either way
+    - Newton calculates exactly what to expect in a range of circumstances
+    - Popper describes how to narrow a theory to make it stronger.
+    - Goedel, Turing, Rice, Shapiro: the same, mathematically
+
+> So this is a very brief overview of three figures in history looking at that first question - how do you know and trust a claim is right? If the person making the claim leaves room for it to be falsified, you can have a pretty good idea that they're honest. At least, they can be comfortable putting a bounds on what they're saying.
 
 31. [diagram] Yanofsky-style cone
     - Left: the countable world (objects, observations)
     - Right: the cone of functions, algorithms, programs
     - Caption: mappings between the world and the language we use to talk about it
 
-32. [bullets] Three eras, one discipline
-    - Archimedes builds the witness
-    - Newton survives the prediction
-    - Popper names the killer in advance
-    - Goedel, Turing, Rice, Shapiro: the math catches up
+> Let's look at this through a familiar lens. The right should look familiar, it's the same tower of functions, algorithms, and programs we've seen throughout the course. We have all possible functions on the bottom. Then there's all algorithims, of which a countably infinite number satisfy a certain function. And then there's actual programs, again a countably infinite number of programs for each specific algorithm.
 
-33. [bullets] Bridge to practice
-    - Rice-Shapiro is Popper, formalized
-    - One finite counterexample refutes membership
-    - The next forty-five minutes of your career: call your shots
-
+> But on the left, we have something that came up a bit more recently, and that's the notion of "the world" or "reality". I call it "the things one could count". The left is anything that "actually exists", that you could go up to and interact with. The right is in each of our minds - it's conceptual, theoretical, language and stories. It's kind of been hiding, both through this course and throughout Western thought.
 
 === IV. PRACTICE: DITHERING AND CONSTRAINT (11 slides) ===
 
@@ -281,9 +287,9 @@ Each slide is marked [bullets] or [diagram]. Bullet slides carry a short list of
     - Two boundaries on an undecidable middle
     - Inner: tests. Outer: types.
 
-35. [diagram] Descartes opener
-    - Image: a sketch in three layers, world / function / program-on-hardware
-    - Caption: the program-function-hardware duality
+> OK and in this last part, we're going to switch from a math talk and a history talk to a software engineering talk. How do we ask these kinds of question in software? Rice' theorem says that mathematically, given a function, we can't really do much interesting things with that function, we can't look at it and get anything useful out. The only thing we can do with it, well, give it an input, wait around for a while, and... see what happens?
+
+> But that's not very interesting. Instead, we're going to attack it from two directions. From the bottom, we're going to apply rice-shapiro and a technique I'll call dithering to find where the boundary of the function's properties are, and on the other we're going to attack down from the program side, since we can say interesting things about programs.
 
 36. [diagram] World and function, business example
     - The Yanofsky-style cone, redrawn
@@ -291,15 +297,21 @@ Each slide is marked [bullets] or [diagram]. Bullet slides carry a short list of
     - Label the matching function on the program side
     - Caption: the engineer's job lives between these two arrows
 
+> Here's our cone again, but we've got a lot more detail. Over on the left, in the world, we have a bunch of transactions that people made. Over on the right, we need a function that classifies a transaction as is_fraud and not is_fraud.
+
 37. [bullets] Dithering and Rice-Shapiro
     - The Rice-Shapiro picture, applied to a working function
     - Pick a point that should land inside, run it, observe
     - Pick a point that should land outside, run it, observe
 
+> We're going to start with a unit test. This point here? This one should definitely be labeled fraude. And here's a point, this one is not fraud. Ok, that's nice. But we've still got this boundary we want to find.
+
 38. [diagram] Loose dithering
     - Many points scattered around the boundary
     - Some land inside (witnesses), some outside (refutations)
     - Caption: each point is a called shot
+
+> And what we'll do is just keep "dithering", that is, in an organized manner we'll just try a whole bunch of points around here. And as we keep going, we'll find exactly where the line in the function is. If we have enough points, we can be confident that all of them lie within the partition that we're interested in, the fraud side.
 
 39. [bullets] Dithering as unit testing
     - A unit test is a called shot at behavior
@@ -307,22 +319,27 @@ Each slide is marked [bullets] or [diagram]. Bullet slides carry a short list of
     - Missed: a refutation, the function is not what we claimed
     - The suite raises the lower bound on the index set, witness by witness
 
+> This is unit testing, or property testing, or dithering around the area we're interested in. We looked at the real world, we created a theory of what constitutes a fraudulent transaction, and we found a function that's a proof of that theory. So long as every point keeps getting classified correctly, we have confidence in our claim that this function is the truth of the question.
+
+> A couple notes for completeness - the function or the program in this case is actually doing both F and not F at the same time, so it's giving us the total partition. And the assertion is "this point lands on the correct side of the partition", which while one step removed from the formalism of Rice' theorem, I hope you're OK following me there.
+
+> Second, this does gloss over that this function is bounded, so there's technically a third case where the function fails to find an answer within a certain number of steps.
+
 40. [bullets] Type systems
-    - The other table
     - Types call shots at composition, not behavior
     - The compiler is the referee
     - A type error is a refutation before the shot is even taken
+
+> I do want to go out on a bit of a limb and come at this from the other direction, because again I think this is really important to understand at least my distinction between the mathematician, the computer scientist, and the software engineer. Mathemeticians have said these nice wonderful theorems that tell me I can't just use a black box to understand if I have the right function. That's great, it means I have a job and I get paid a lot of money to find things at the top of the diagram that map down to the bottom.
+
+> But when programming, I'm not typing down here in the function space, the function never "exists" anywhere. It's on the right hand side, in language. I'm actually working up here, in the real world in text, which maps to the top right in syntactical programs set. And if I'm in programs, there are some very strong proofs and theorems we can apply to the lists and trees that create programs!
 
 41. [diagram] Type system as outer fence
     - The full space of programs
     - A type system carves out a permitted region
     - Caption: ill-typed programs are excluded before runtime
 
-42. [bullets] Types as program constraints
-    - A type signature is a called shot at composition
-    - Landed: the program compiles, a witness of well-formedness
-    - Missed: a refutation, before a single test runs
-    - The type system lowers the upper bound, refusal by refusal
+> The compiler is a total computable function that looks at the finite set of typable programs, and makes provable assertions about their behavior. Programs are finite, so this is cool. But what that does is also gives us constraints going down the stack! If I can prove that this particular program halts, syntactically (it has no loops, or the loop can be shown to complete), then I know that the function it represents down here has certain useful properties, like the function f that is encoded by P will halt. That's neat!
 
 43. [diagram] Two bounds on the index set
     - The Rice-Shapiro picture, with both bounds drawn
@@ -331,13 +348,15 @@ Each slide is marked [bullets] or [diagram]. Bullet slides carry a short list of
     - The undecidable middle, shaded, between them
     - Caption: the gap between the bounds is where the bugs live
 
+> Zooming in on the partition down here, we see that we have the area the boundary, and we're dithering around it with unit tests. But now that I have a specific program, that I claim represents this function, we also have an outer bounds of what this program cold achieve. And that means we have a much smaller area to dither around! The work we need to do to show that there is no counter example is much smaller, and much more tractble in practice
+
 
 === V. CLOSE (2 slides) ===
 
 44. [bullets] The landing
-    - Rice-Shapiro still stands. The set is still undecidable.
-    - We never decide the set.
-    - We call our shots, from both sides, until what is left is small enough to ship.
+    - Rice-Shapiro: partitioning on arbitrary properties is undecidable, but rejecting candidates is easy.
+    - Science took a long, troubled road to find that confidence.
+    - Software Engineers get this rich intellectual history almost free!
 
 45. [bullets] Questions
     - Thank you
