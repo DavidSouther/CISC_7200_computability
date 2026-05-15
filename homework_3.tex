@@ -1,0 +1,77 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{stix}
+\usepackage[utf8]{inputenc}
+\lstset{ basicstyle=\ttfamily, }
+
+\begin{document}
+
+\section*{Excercise 1.5 1}
+
+$Q(x, y, z)$
+
+$y$ is in the domain of the function computed by the program $x$ if and only if there is a $z$ that makes $Q$ true.
+
+Construct $Q$ in a way that it is try when $z$ causes (or encodes) some notion of $y \in E_x$
+
+$\phi_x(?z?) = {y}$
+
+$\phi_x^{-1}(y) = (z)_1$
+
+$Q$ says whether $(z)_1$ is the inverse of y.
+
+$y \in E_x$ \& $Q(x, y, z)$ $\implies$ $\phi_x((z)_1) = y$
+
+$Q$ checks that $\phi_x((z)_1) = y$ and $\phi_x^{-1}(y) = (z)_1$
+
+\bigskip
+
+This is the first step of constructing an inverse function that "sweeps" the range space to find the domain.
+
+\section*{3.2 1}
+
+Construct computable function $k(e)$ that encodes not $M(e)$.
+
+$M_x\simeq\phi_e(x)$
+
+$\neg M_x \simeq \phi_k(e)(x)$
+
+$k(e) \equiv e, 1 \dot{-} R_1$
+
+\bigskip
+
+Using the concatenation construction of programs and the negation program.
+
+\section*{3.2 2}
+
+$k(x): E_{k(x)} = W_x$
+
+Total computable function that the domain of the function on a program is the range of the program.
+
+$k(x) \equiv \phi_x^{-1}$
+
+\bigskip
+
+$k(x)$ computes the inverse function for program with number $x$, see 1.5 for such a construction.
+
+\section*{3.2 3}
+
+$S(x, y): E_{s(x, y)} = E_x\cup E_y$
+
+A total computable function $S(x, y)$ whose domain is the union of domains of both programs $x$ and $y$.
+
+$$
+\phi_{S(x, y)}(z) =
+\begin{cases}
+    \phi_x(\frac{z}{2}) \text{ if $z$ even} \\
+    \phi_y(\frac{z - 1}{2}) \text{ if $z$ odd}
+\end{cases}
+$$
+
+\bigskip
+
+$S(x, y)$ uses even/odd encoding to partition the naturals into the program $x$ case and program $y$ case.
+
+\end{document}

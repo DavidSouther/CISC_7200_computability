@@ -1,0 +1,152 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{stix}
+\usepackage[utf8]{inputenc}
+\lstset{ basicstyle=\ttfamily, }
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Homework 4}}\\[0.5em]
+{\large Cutland, Chapter 6, Exercise 1.8(1)(a)--(i)}
+\end{center}
+
+\bigskip
+
+\noindent\textit{Show that each of the following problems is undecidable.}
+
+\bigskip
+
+\noindent The exercises split naturally by technique. Parts $(f)$, $(g)$, $(h)$, $(i)$ are extensional (they depend only on the function $\phi_x$, not on the index $x$) and follow at once from Rice's theorem (6\nobreakdash-1.7). Parts $(a)$, $(c)$, $(d)$ are non-extensional and require an $s$\nobreakdash-$m$\nobreakdash-$n$ reduction from `$x \in W_x$' (6\nobreakdash-1.1). Parts $(b)$ and $(e)$ are obtained by specialising parameters in a known undecidable problem.
+
+We give a fully detailed proof for $(a)$ as a typical example of the $s$\nobreakdash-$m$\nobreakdash-$n$ technique; the remaining parts are presented more briefly.
+
+\bigskip
+
+\noindent\textbf{(a)}\quad\textit{The problem `$x \in E_x$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} We reduce `$x \in W_x$' to `$x \in E_x$' using the $s$\nobreakdash-$m$\nobreakdash-$n$ theorem. Define
+\[
+f(x, y) \simeq
+\begin{cases}
+y & \text{if } x \in W_x, \\
+\text{undefined} & \text{if } x \notin W_x.
+\end{cases}
+\]
+By Church's thesis $f$ is computable (formally, $f(x, y) \simeq y \cdot \mathbf{1}(\psi_{\mathrm{U}}(x, x))$, computable by substitution). The $s$\nobreakdash-$m$\nobreakdash-$n$ theorem gives a total computable function $k$ such that $f(x, y) \simeq \phi_{k(x)}(y)$. From the definition of $f$,
+\[
+x \in W_x \implies \phi_{k(x)}(y) = y \text{ for all } y, \text{ so } E_{k(x)} = \mathbb{N}, \text{ and in particular } k(x) \in E_{k(x)};
+\]
+\[
+x \notin W_x \implies \phi_{k(x)} \text{ is nowhere defined, so } E_{k(x)} = \varnothing, \text{ and in particular } k(x) \notin E_{k(x)}.
+\]
+Hence
+\[
+(*)\qquad x \in W_x \iff k(x) \in E_{k(x)}.
+\]
+
+Suppose, for contradiction, that `$z \in E_z$' is decidable, with characteristic function $g$. Then the function $h(x) = g(k(x))$ is computable, and by $(*)$,
+\[
+h(x) =
+\begin{cases}
+1 & \text{if } x \in W_x, \\
+0 & \text{if } x \notin W_x.
+\end{cases}
+\]
+But $h$ is the characteristic function of `$x \in W_x$', which is not computable by theorem 6\nobreakdash-1.1. This contradiction shows `$x \in E_x$' is undecidable. \qed
+
+\bigskip
+
+\noindent\textbf{(b)}\quad\textit{The problem `$W_x = W_y$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Let $c$ be an index of the (total) constant function $\mathbf{0}$, so $W_c = \mathbb{N}$. If `$W_x = W_y$' were decidable then so would be the unary problem `$W_x = W_c$', that is, `$W_x = \mathbb{N}$', which is the same as `$\phi_x$ is total'. By theorem 5\nobreakdash-2.1 the latter is undecidable, a contradiction. \qed
+
+\bigskip
+
+\noindent\textbf{(c)}\quad\textit{The problem `$\phi_x(x) = 0$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} We reduce `$x \in W_x$'. Define
+\[
+f(x, y) \simeq
+\begin{cases}
+0 & \text{if } x \in W_x, \\
+\text{undefined} & \text{if } x \notin W_x.
+\end{cases}
+\]
+$f$ is computable (by Church's thesis, or by $f(x, y) \simeq \mathbf{0}(\psi_{\mathrm{U}}(x, x))$). By the $s$\nobreakdash-$m$\nobreakdash-$n$ theorem there is a total computable $k$ such that $f(x, y) \simeq \phi_{k(x)}(y)$. Then
+\[
+x \in W_x \iff \phi_{k(x)}(k(x)) = 0.
+\]
+If `$\phi_z(z) = 0$' had computable characteristic function $g$, then $g \circ k$ would decide `$x \in W_x$', contradicting theorem 6\nobreakdash-1.1. \qed
+
+\bigskip
+
+\noindent\textbf{(d)}\quad\textit{The problem `$\phi_x(y) = 0$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Using the function $f$ and $k$ of part $(c)$, fix any constant $c$. Then for every $x$,
+\[
+x \in W_x \iff \phi_{k(x)}(c) = 0,
+\]
+so a decision procedure for `$\phi_x(y) = 0$' would, applied at $(k(x), c)$, decide `$x \in W_x$'. Hence `$\phi_x(y) = 0$' is undecidable. \qed
+
+\bigskip
+
+\noindent\textbf{(e)}\quad\textit{The problem `$x \in E_y$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Specialise $x$ to a fixed constant. By theorem 6\nobreakdash-1.6$(b)$, the unary problem `$c \in E_y$' is undecidable for every fixed $c$. If `$x \in E_y$' were decidable, fixing $x = c$ would give a decision procedure for `$c \in E_y$', a contradiction. \qed
+
+\bigskip
+
+\noindent\textbf{(f)}\quad\textit{The problem `$\phi_x$ is total and constant' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Let
+\[
+\mathscr{B} = \{ f \in \mathscr{C}_1 : f \text{ is total and constant} \}.
+\]
+$\mathscr{B}$ is non-empty (it contains $\mathbf{0}$) and is a proper subset of $\mathscr{C}_1$ (the identity function is total but not constant). By Rice's theorem (6\nobreakdash-1.7) the predicate `$\phi_x \in \mathscr{B}$' is undecidable. \qed
+
+\bigskip
+
+\noindent\textbf{(g)}\quad\textit{The problem `$W_x = \varnothing$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Let $\mathscr{B} = \{ f_\varnothing \} \subseteq \mathscr{C}_1$, the class containing only the nowhere-defined function. Then $\mathscr{B} \neq \varnothing$ and $\mathscr{B} \neq \mathscr{C}_1$. Since $W_x = \mathrm{Dom}(\phi_x)$, we have $W_x = \varnothing \iff \phi_x = f_\varnothing \iff \phi_x \in \mathscr{B}$. Rice's theorem gives undecidability. \qed
+
+\bigskip
+
+\noindent\textbf{(h)}\quad\textit{The problem `$E_x$ is infinite' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Let
+\[
+\mathscr{B} = \{ f \in \mathscr{C}_1 : \mathrm{Ran}(f) \text{ is infinite} \}.
+\]
+$\mathscr{B}$ is non-empty (it contains the identity function) and proper (it does not contain $\mathbf{0}$, whose range is finite). Since $E_x = \mathrm{Ran}(\phi_x)$, the predicate `$E_x$ is infinite' coincides with `$\phi_x \in \mathscr{B}$', which is undecidable by Rice's theorem. \qed
+
+\bigskip
+
+\noindent\textbf{(i)}\quad\textit{For any fixed computable function $g$, the problem `$\phi_x = g$' is undecidable.}
+
+\medskip
+
+\textit{Proof.} Take $\mathscr{B} = \{g\} \subseteq \mathscr{C}_1$. Since $g \in \mathscr{C}_1$, $\mathscr{B}$ is non-empty; since $\mathscr{C}_1$ contains computable functions other than $g$ (for example, the function differing from $g$ at $0$ by adding $1$, with the convention that it is undefined where $g$ is undefined), $\mathscr{B} \neq \mathscr{C}_1$. By Rice's theorem `$\phi_x = g$' is undecidable. This generalises theorem 6\nobreakdash-1.4 (the case $g = \mathbf{0}$). \qed
+
+\bigskip
+
+\end{document}

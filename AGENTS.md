@@ -1,0 +1,1 @@
+After making edits to .tex files, run `pdflatex -interaction=nonstopmode` and fix any issues.

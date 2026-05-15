@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" font-family="Georgia, serif">
+  <defs>
+    <linearGradient id="water" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#bcd6e6"/>
+      <stop offset="1" stop-color="#7fa8c0"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#e7c860"/>
+      <stop offset="1" stop-color="#a78628"/>
+    </linearGradient>
+    <linearGradient id="crown" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#e7c860"/>
+      <stop offset="1" stop-color="#a78628"/>
+    </linearGradient>
+  </defs>
+
+  <!-- LEFT TRIAL: gold reference -->
+  <g transform="translate(40,40)">
+    <text x="150" y="0" text-anchor="middle" font-style="italic" font-size="18" fill="#444">
+      Trial A: pure gold of equal weight
+    </text>
+
+    <!-- vessel with spout -->
+    <g stroke="#333" stroke-width="2" fill="none">
+      <path d="M 50,40 L 50,220 L 250,220 L 250,80 L 270,80 L 280,100"/>
+      <!-- spout outline -->
+      <path d="M 250,90 L 270,90 L 278,108"/>
+    </g>
+    <!-- water level at spout brim -->
+    <path d="M 52,80 L 248,80 L 248,218 L 52,218 Z" fill="url(#water)" opacity="0.85"/>
+    <!-- gold cube submerged -->
+    <rect x="110" y="120" width="60" height="60" fill="url(#gold)" stroke="#7a5a10" stroke-width="1.5"/>
+    <text x="140" y="156" text-anchor="middle" font-size="13" fill="#3a2a08">gold</text>
+
+    <!-- catch vessel A -->
+    <g stroke="#333" stroke-width="2" fill="none">
+      <path d="M 300,150 L 310,250 L 380,250 L 390,150"/>
+    </g>
+    <path d="M 308,230 L 382,230 L 379,250 L 311,250 Z" fill="url(#water)" opacity="0.85"/>
+    <text x="345" y="275" text-anchor="middle" font-size="14" fill="#333">overflow A</text>
+
+    <!-- drip -->
+    <circle cx="284" cy="118" r="3" fill="#7fa8c0"/>
+    <circle cx="286" cy="130" r="3" fill="#7fa8c0"/>
+    <circle cx="290" cy="145" r="3" fill="#7fa8c0"/>
+  </g>
+
+  <!-- RIGHT TRIAL: crown -->
+  <g transform="translate(440,40)">
+    <text x="150" y="0" text-anchor="middle" font-style="italic" font-size="18" fill="#444">
+      Trial B: the crown
+    </text>
+
+    <g stroke="#333" stroke-width="2" fill="none">
+      <path d="M 50,40 L 50,220 L 250,220 L 250,80 L 270,80 L 280,100"/>
+      <path d="M 250,90 L 270,90 L 278,108"/>
+    </g>
+    <path d="M 52,80 L 248,80 L 248,218 L 52,218 Z" fill="url(#water)" opacity="0.85"/>
+
+    <!-- crown submerged: stylized circlet with points -->
+    <g transform="translate(110,118)" fill="url(#crown)" stroke="#7a5a10" stroke-width="1.5">
+      <path d="M 0,30 L 10,5 L 20,25 L 30,0 L 40,25 L 50,5 L 60,30 L 60,55 L 0,55 Z"/>
+    </g>
+
+    <!-- catch vessel B -->
+    <g stroke="#333" stroke-width="2" fill="none">
+      <path d="M 300,150 L 310,250 L 380,250 L 390,150"/>
+    </g>
+    <!-- visibly more overflow -->
+    <path d="M 308,215 L 382,215 L 379,250 L 311,250 Z" fill="url(#water)" opacity="0.85"/>
+    <text x="345" y="275" text-anchor="middle" font-size="14" fill="#333">overflow B</text>
+
+    <circle cx="284" cy="118" r="3" fill="#7fa8c0"/>
+    <circle cx="286" cy="130" r="3" fill="#7fa8c0"/>
+    <circle cx="290" cy="145" r="3" fill="#7fa8c0"/>
+  </g>
+
+  <!-- verdict line -->
+  <g transform="translate(0,340)">
+    <text x="400" y="0" text-anchor="middle" font-size="18" fill="#333">
+      <tspan font-style="italic">If</tspan>
+      <tspan dx="6">B &gt; A,</tspan>
+      <tspan dx="10" font-style="italic">the claim of pure gold is refuted.</tspan>
+    </text>
+    <text x="400" y="28" text-anchor="middle" font-size="14" fill="#777" font-style="italic">
+      same weight, different volume: the indirect measurement does the work
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,107 @@
+\documentclass[fleqn]{article}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{fullpage}
+\usepackage{listings}
+\usepackage{stix}
+\usepackage[utf8]{inputenc}
+\lstset{ basicstyle=\ttfamily, }
+
+\begin{document}
+
+\section*{Excercise 6.1.8 1}
+
+Show each problem is undecidable.
+
+\subsection*{(a): $x \in E_x$}
+
+Reduce `$x \in W_x$'. Define
+\[
+f(x, y) \simeq
+\begin{cases}
+y & x \in W_x \\
+\text{undefined} & x \notin W_x.
+\end{cases}
+\]
+$f$ is computable. By $s$-$m$-$n$ there is total computable $k$ with $f(x, y) \simeq \phi_{k(x)}(y)$.
+
+$x \in W_x \implies E_{k(x)} = \mathbb{N} \implies k(x) \in E_{k(x)}$.
+
+$x \notin W_x \implies E_{k(x)} = \varnothing \implies k(x) \notin E_{k(x)}$.
+
+So $x \in W_x \iff k(x) \in E_{k(x)}$. A decision procedure for `$z \in E_z$' composed with $k$ would decide `$x \in W_x$', contradicting 6-1.1.
+
+\subsection*{(b): $W_x = W_y$}
+
+Let $c$ be an index of $\mathbf{0}$, so $W_c = \mathbb{N}$. Then `$W_x = W_c$' is `$\phi_x$ total', undecidable by 5-2.1. So `$W_x = W_y$' is undecidable.
+
+\subsection*{(c): $\phi_x(x) = 0$}
+
+Reduce `$x \in W_x$'. Define
+\[
+f(x, y) \simeq
+\begin{cases}
+0 & x \in W_x \\
+\text{undefined} & x \notin W_x.
+\end{cases}
+\]
+By $s$-$m$-$n$ get total computable $k$ with $f(x, y) \simeq \phi_{k(x)}(y)$.
+
+$x \in W_x \iff \phi_{k(x)}(k(x)) = 0$.
+
+A decision procedure for `$\phi_z(z) = 0$' composed with $k$ would decide `$x \in W_x$'.
+
+\subsection*{(d): $\phi_x(y) = 0$}
+
+Use $f$ and $k$ from (c). Fix any constant $c$.
+
+$x \in W_x \iff \phi_{k(x)}(c) = 0$.
+
+A decision procedure for `$\phi_x(y) = 0$' applied at $(k(x), c)$ would decide `$x \in W_x$'.
+
+\subsection*{(e): $x \in E_y$}
+
+Fix $x = c$. By 6-1.6(b), `$c \in E_y$' is undecidable. So `$x \in E_y$' is undecidable.
+
+\subsection*{(f): $\phi_x$ is total and constant}
+
+Let $\mathscr{B} = \{ f \in \mathscr{C}_1 : f \text{ total and constant} \}$.
+
+\begin{itemize}
+\item Non-empty: contains $\mathbf{0}$.
+\item Proper: identity is total but not constant.
+\item Rice's theorem (6-1.7).
+\end{itemize}
+
+\subsection*{(g): $W_x = \varnothing$}
+
+Let $\mathscr{B} = \{ f_\varnothing \}$. $W_x = \varnothing \iff \phi_x = f_\varnothing \iff \phi_x \in \mathscr{B}$.
+
+\begin{itemize}
+\item Non-empty: contains $f_\varnothing$.
+\item Proper: does not contain $\mathbf{0}$.
+\item Rice's theorem.
+\end{itemize}
+
+\subsection*{(h): $E_x$ is infinite}
+
+Let $\mathscr{B} = \{ f \in \mathscr{C}_1 : \operatorname{Ran}(f) \text{ infinite} \}$. $E_x = \operatorname{Ran}(\phi_x)$.
+
+\begin{itemize}
+\item Non-empty: contains identity.
+\item Proper: does not contain $\mathbf{0}$.
+\item Rice's theorem.
+\end{itemize}
+
+\subsection*{(i): $\phi_x = g$ for fixed computable $g$}
+
+Let $\mathscr{B} = \{g\}$.
+
+\begin{itemize}
+\item Non-empty: contains $g$.
+\item Proper: $\mathscr{C}_1$ contains functions other than $g$.
+\item Rice's theorem.
+\end{itemize}
+
+Generalises 6-1.4 ($g = \mathbf{0}$).
+
+\end{document}

@@ -15,6 +15,8 @@
 \input{theme}
 
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\graphicspath{{images/}}
 
 %%% ----- Math helpers -----
 \newcommand{\IS}{I_{S}}
@@ -72,6 +74,9 @@
 %%% ============================================================
 
 \section{Theorems}
+\note{%
+  Alright, let's get into the math first. We've got two theorems to walk through, Rice and then Rice--Shapiro. I'll keep the proofs short, because the punch line at the end is what we're actually going to spend the rest of the talk on.
+}
 
 \begin{frame}{Setup}
   \begin{itemize}
@@ -100,6 +105,9 @@
   \vskip 0.7em
   No general decision procedure can answer ``is this function in $S$?''
 \end{frame}
+\note{%
+  So, Rice's theorem: if $S$ is non-trivial, then $\IS$ is undecidable. For the proof:
+}
 
 \begin{frame}{Rice's theorem, drawn}
   \centering
@@ -116,6 +124,9 @@
       at (0, 3.0) {partial computable functions};
   \end{tikzpicture}
 \end{frame}
+\note{%
+  Picture the world of partial computable functions cleaved into two sides. Which side an index falls on is the thing we can't decide.
+}
 
 \begin{frame}{Rice's theorem, proof}
   \small
@@ -132,6 +143,11 @@
     \item Either way: contradiction. \hfill$\square$
   \end{itemize}
 \end{frame}
+\note{%
+  $a$ and $b$ are two naturals, where $a$ is an index of a function in $S$ and $b$ is an index of a function not in $S$. We're going to construct $f$ using the same procedure that we did in Turing's proof of halting, and in every category theory diagram. $f$ with $e$ as the first argument is a total computable function defined by taking the opposite of the assumptions in the first slide.
+
+  With an application of s-m-n, we get from $f$ to $\varphi$, and then directly to the contradiction. If $\varphi_e$ is $\varphi_b$, $e$ is both in and not in $\IS$. And vice versa.
+}
 
 \begin{frame}{Rice's theorem, as a diagram}
   \centering
@@ -149,6 +165,9 @@
   \vskip 1em
   {\small\itshape\color{color_mute} Same proof, drawn as a fixed-point square.}
 \end{frame}
+\note{%
+  And here it is again, drawn as a category-theory diagram. Same proof, different lens.
+}
 
 \begin{frame}{Rice's theorem, contrapositive}
   \begin{block}{}
@@ -157,6 +176,9 @@
   \vskip 0.7em
   The only decidable function properties are no property at all.
 \end{frame}
+\note{%
+  Turn it around to the contrapositive. Assume the index set is, in fact, decidable. Then what do we know about $S$? The only thing we can know is that $S$ is either empty, or everything. This on its own isn't interesting, but hold the thought.
+}
 
 %%%---- Rice-Shapiro
 \begin{frame}{Rice--Shapiro}
@@ -168,6 +190,9 @@
   {\small\itshape\color{color_mute}
    The word that earns its keep here is \emph{finite}.}
 \end{frame}
+\note{%
+  The word that should jump out here right away is ``finite''. So we had Rice, which says $\IS$ is undecidable. Let's keep with the same set and index set, and think through it a bit different. This says that some function $f$ is in $S$ if and only if another function, this time a finite function $g$, is in the index set. So we said the index set itself is undecidable, but Shapiro is saying hey, you can start to tell whether $f$ is in $S$ by checking just a finite chunk of $f$.
+}
 
 \begin{frame}{Rice--Shapiro, the witness}
   \centering
@@ -187,6 +212,9 @@
       at (0, -3.2) {a finite $g$ on the $S$ side: $f$ remains a candidate};
   \end{tikzpicture}
 \end{frame}
+\note{%
+  Here it is as a picture. We've got the partitioning of $S$ here, and we have some candidate function $f$. These points are a subset of $f$, and in this case, $g$ suggests that $f$ is a reasonable candidate.
+}
 
 \begin{frame}{Rice--Shapiro, the refutation}
   \centering
@@ -209,6 +237,9 @@
       at (0, -3.2) {one finite point on the wrong side: $f \notin S$};
   \end{tikzpicture}
 \end{frame}
+\note{%
+  Uh oh, here's another point in $g$, and this one is on the wrong side! So this finite $g$ says hey, $f$ is definitely not in the Index Set, since the index set can only generate things on the left side!
+}
 
 \begin{frame}{Rice--Shapiro, proof}
   \vfill
@@ -216,6 +247,11 @@
   {\large\itshape\color{color_mute} sketch to come}
   \vfill
 \end{frame}
+\note{%
+  Sketch by reduction from the halting problem. Assume the index set is \re{} and Shapiro's witness rule fails for some $f$. We build, for each natural $n$, a partial computable $h_n$ that mimics $f$ as long as $\varphi_n(n)$ hasn't halted yet. If $\varphi_n(n)$ never halts, $h_n$ is just $f$ and lands in $S$. If $\varphi_n(n)$ halts at some stage, $h_n$ is a finite restriction of $f$, which by assumption is not in $S$.
+
+  So $n$ is not in $K$ precisely when $h_n$'s index is in $\IS$. An \re{} index set therefore makes the complement of the halting problem \re{}, which Turing rules out. So Shapiro's witness rule has to hold.
+}
 
 \begin{frame}{Rice--Shapiro, as a diagram}
   \vfill
@@ -223,6 +259,9 @@
   {\large\itshape\color{color_mute} category-theory diagram to come}
   \vfill
 \end{frame}
+\note{%
+  Same proof, same shape. The complement of $K$ reduces to $\IS$ through the parametric $h_n$. Assuming $\IS$ is \re{} would give $K$-complement \re{}, closing the square at a contradiction.
+}
 
 \begin{frame}{Rice--Shapiro, contrapositive}
   \begin{itemize}
@@ -230,6 +269,9 @@
     \item The witness can refute, not just confirm.
   \end{itemize}
 \end{frame}
+\note{%
+  And this is the much easier way to say it, as the contrapositive.
+}
 
 \begin{frame}{Plain English, all four}
   \begin{itemize}
@@ -239,6 +281,9 @@
     \item \emph{Rice--Shapiro, contrapositive.} One finite witness against you, and the index set is not even \re
   \end{itemize}
 \end{frame}
+\note{%
+  OK so to say all four of those out loud in plain English. Rice says non-trivial behavioral properties are undecidable. The contrapositive: if you can decide it, the property has to be trivial. Then Shapiro tightens that up, behavior is fixed by finite evidence. And its contrapositive is the one we really care about: one finite witness against you, and the index set isn't even \re{} It's that last one that does all the work for the rest of the talk.
+}
 
 \begin{frame}{Bridge to history}
   \begin{itemize}
@@ -249,5 +294,479 @@
   \vskip 0.6em
   {\small\itshape\color{color_mute} Let's talk some history.}
 \end{frame}
+\note{%
+  This really feels super obvious, and intuitive? It does for me at least. But going through history, accepting this is anything but obvious. It's actually pretty damned hard, for a lot of folks.
+
+  Let's talk some history.
+}
+
+%%% ============================================================
+%%% III. FALSIFIER? I JUST MET HER
+%%% ============================================================
+
+\section{Falsifier? I just met her!}
+\note{%
+  OK, math is done. Now I want to take you on a tour through how this idea has actually shown up out in the wild, going back about 2300 years. We've got three main stops with a couple of bridges in between, and the whole point is that the same shape keeps reappearing.
+}
+
+\begin{frame}{A walk through falsification}
+  \begin{itemize}
+    \item \emph{Three eras, three figures, one discipline.}
+    \item Archimedes calls a shot the world can refute.
+    \item Newton calls a shot the world keeps confirming\,---\,until Mercury.
+    \item Popper names the move.
+  \end{itemize}
+\end{frame}
+\note{%
+  So here's the roadmap for the history section. We're going to look at three figures across three eras. Archimedes calls a shot the world can refute, by indirect measurement. Newton calls shots the world keeps confirming, right up until Mercury comes along. And then Popper finally names what's actually going on, that scientific theories live or die by whether they could be wrong.
+}
+
+%%%---- Archimedes
+\begin{frame}{Archimedes of Syracuse}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.42\textwidth}
+      \includegraphics[width=\linewidth]{archimedes_fetti.jpg}\\[0.3em]
+      {\scriptsize\itshape\color{color_mute}
+        Domenico Fetti, \emph{Archimedes Thoughtful}, 1620.}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item c.\ 287 to 212 BCE, Syracuse.
+        \item Mathematician, engineer, astronomer.
+        \item Killed at the siege, mid-equation.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{%
+  So this is Archimedes, one of those Greek figures we hear so much about. He's a bit towards the end of the Hellenistic world; Aristotle and Alexander the Great were both dead 50 years before Archimedes was born. So he's working from all the writings of the Pythagoreans, and he's got all of Euclid in his back pocket, but he doesn't have things like Algebra or the concept of ``zero'' as a number. If you asked him, he'd tell you the natural numbers start at 1. Still, he very nearly invented calculus, so he's a pretty smart dude.
+}
+
+\begin{frame}{Archimedes, the question}
+  \begin{itemize}
+    \item Hiero II has a beautiful crown.
+    \item The artisan says it is pure gold.
+    \item The crown cannot be damaged or destroyed.
+  \end{itemize}
+\end{frame}
+\note{%
+  On the falsification experiment, he's actually here as a judge rather than a questioner. His king, Hiero the second, has just gotten this gorgeous crown, and he needs to know if the artisan is being honest. How do you figure out if something is pure gold?
+
+  If you just weigh it, you don't know if it's pure gold, or gold-silver alloy of the same weight. You could melt it and try separating out any silver, but that kinda defeats the purpose of having this crown! It's already made, so we can't, like, have a guard look over their shoulder the entire time, either.
+
+  The story goes that this was the first time Archimedes had come across this problem any way (we technically don't know if someone figured it out before and didn't write it down). So Archimedes is sitting around thinking about this problem, and it's said that he fills his bath tub all the way up to the brim. (It's the ancients, not the medieval, so they still took baths.) He gets in, and a bunch of water spills out\ldots how much water? Well, the same volume as he takes up!
+
+  He jumps out screaming ``Eureka!'' and runs naked down the street with an experiment in hand, a technique to ask a falsifiable question (or refutable question). He tells his idea to the king (still naked), they do the experiment, and execute the dishonest artisan. So the king got his crown \emph{and} didn't pay for it.
+}
+
+\begin{frame}{The displacement experiment}
+  \centering
+  \includegraphics[height=0.72\textheight]{archimedes_displacement.pdf}\\[0.2em]
+  {\small\itshape\color{color_mute}
+    if the crown displaces more water than gold of equal weight, the claim is refuted}
+\end{frame}
+\note{%
+  Here's a quick look at the experimental apparatus. The interesting thing here is that we're using this indirect measurement to find ``the real thing''. This is an early computation, using a theory to derive an expected value, then measuring against that value. Keep this in mind.
+}
+
+\begin{frame}{Archimedes, takeaway}
+  \begin{itemize}
+    \item The artisan made a claim.
+    \item An indirect measurement can refute the claim.
+  \end{itemize}
+\end{frame}
+\note{%
+  So that's the shape of it. There's a claim, ``this crown is pure gold''. There's an indirect measurement, displacement, that the claim has to be consistent with. And the measurement can come back and say, nope, you're lying. Hold that pattern in your head, because we're going to see it again and again.
+}
+
+\begin{frame}{Archimedes, as a diagram}
+  \centering
+  \begin{tikzpicture}[node distance=3.6cm and 5.0cm]
+    \node[diagram_node] (claim)   at (0, 2.4)  {claim};
+    \node[diagram_node] (measure) at (6, 2.4)  {indirect measurement};
+    \node[diagram_node] (crown)   at (0, 0)    {the crown};
+    \node[diagram_node] (verdict) at (6, 0)    {verdict};
+
+    \draw[diagram_arrow] (crown) -- (claim)   node[midway, left,  figure_label, font=\rmfamily\itshape\small] {assert};
+    \draw[diagram_arrow] (claim) -- (measure) node[midway, above, figure_label, font=\rmfamily\itshape\small] {predict};
+    \draw[diagram_arrow] (crown) -- (verdict) node[midway, below, figure_label, font=\rmfamily\itshape\small] {observe};
+    \draw[diagram_arrow] (measure) -- (verdict) node[midway, right, figure_label, font=\rmfamily\itshape\small] {refute};
+  \end{tikzpicture}
+  \vskip 1em
+  {\small\itshape\color{color_mute} claim, indirect measurement, refutation.}
+\end{frame}
+\note{%
+  And drawn the same way we drew Rice. The crown is the thing we're testing, the claim sits up top, the indirect measurement is the predicted displacement, and the verdict closes the square. Same fixed-point shape we already saw with $\IS$. That's not a coincidence, it's the whole point.
+}
+
+%%%---- Galileo (bridge)
+\begin{frame}{Galileo, two pictures}
+  \centering
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=0.62\textheight]{galileo_sunspots.jpg}\\[0.3em]
+      {\scriptsize\itshape\color{color_mute}
+        sunspot drawings, 1612--1613}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \centering
+      \includegraphics[height=0.62\textheight]{galileo_bezzuoli.jpg}\\[0.3em]
+      {\scriptsize\itshape\color{color_mute}
+        Bezzuoli, Galileo demonstrating the law of falling bodies, 1841}
+    \end{column}
+  \end{columns}
+  \vskip 0.4em
+  {\small\itshape\color{color_mute} predictions specific enough to be wrong.}
+\end{frame}
+\note{%
+  We're jumping ahead a ways. Anyone recognize this guy? Galileo was a lens maker. Lenses were super important for Venetians. As sea-faring traders, it was really useful to know sooner than later whether that ship on the horizon was your own traders coming back with silks and spices, or if it was your enemy showing up with guns to take your silks and spices. But as an early Enlightenment scientist, he's also pointing them up at the sky and everywhere else he can.
+
+  He's got two things that are salient to us here. Both are falsifications. The first was simply looking at things, in this case, the sun. Catholic doctrine stated the heavenly bodies were perfect and unmoving. Galileo, with his telescope, pointed it at the sun and was intrigued to find a blemish, and one that moved! The sun wasn't perfect, and it wasn't fixed. After being tried for blasphemy and ostensibly renouncing his claims, (and, this is probably apocryphal), he says ``Eppur si muove'', ``And yet, it moves''.
+
+  The second takes aim at Aristotle, who says that heavy things fall faster. Galileo claims a cannon ball and a marble dropped at the same time land at the same time. Actually that was an experiment in Delft, by de Groot and Stevin. Galileo does a thought experiment that arrives at an intriguing contradiction, but that will have to wait for another time.
+}
+
+%%%---- Newton
+\begin{frame}{Isaac Newton}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.42\textwidth}
+      \includegraphics[width=\linewidth]{newton_kneller.jpg}\\[0.3em]
+      {\scriptsize\itshape\color{color_mute}
+        Godfrey Kneller, 1689.}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item 1643 to 1727.
+        \item Trinity College, Cambridge, 1665.
+        \item \emph{Principia Mathematica}, 1687.
+        \item President of the Royal Society.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{%
+  Moving ahead the year after Galileo's death, Isaac Newton is born in England. He takes refuge from the plague in 1665, sees the apocryphal apple drop from a tree (or fall on his head), and begins wondering about the ideas that we now call ``force''. If ``force'' can reach out over a distance, what does that mean? He spends the rest of the summer inventing calculus, proving the inverse square law of gravitational attraction, predicts exactly Kepler's planetary motion from first principles and the return of Halley's comet, and then like the total jackass he is doesn't publish it for another 22 years.
+}
+
+\begin{frame}{Newton, the claim}
+  \begin{itemize}
+    \item Universal gravitation, inverse square.
+    \item Predicts planetary orbits, tides, falling apples.
+    \item One theory for the heavens and the earth.
+  \end{itemize}
+\end{frame}
+\note{%
+  Using the simple principles of the three laws of motion (Inertia, Force as Mass by Acceleration, and the principle of action and reaction) and also inventing all of calculus, Newton perfectly predicted \emph{where} planets would be. To this point, Kepler had shown that planets did move in an ellipse, and with laborious effort could calculate which ellipse. But Newton turned that on its head and showed that the ellipse was a consequence of a simpler principle, and with the simpler principle, the labor of calculating a trajectory was much improved.
+}
+
+\begin{frame}{Halley's comet}
+  \centering
+  \includegraphics[height=0.72\textheight]{halley_1759.png}\\[0.3em]
+  {\small\itshape\color{color_mute}
+    Halley predicts 1758, the comet returns 1759.}
+\end{frame}
+\note{%
+  So Edmund Halley is a royal astronomer (again, if you can see a ship further away, you can better prepare to fight them). And he's got ideas on when a certain comet will re-appear. To this point, the orbits of the planets were well established, but, like, why would a comet follow that? It's a comet, not a planet\ldots but ok, why wouldn't it?
+
+  So Halley tries to calculate it. And he gets it\ldots kinda right? He's off by a few months. Which given their equipment is pretty darned good! He ends up visiting Newton, asking Newton to check his notes, and Newton's like ``your calculations are wrong'' and Halley's like ``how do you know that?'' (Halley was doing everything with trigonometry, which\ldots SUCKS\ldots for orbital mechanics) and Newton's like ``Because I already figured it out 20 years ago.''
+
+  Halley's like ``bullshit'' and Newton goes to his shelf and pulls out his notes from Cambridge (the ones that, you know, invented calculus) and sure enough there's his calculations for Halley's Comet with a slightly more accurate prediction. Newton called his shot and nailed it. Halley's impressed, and actually pays himself to get Newton's \emph{Principia} published.
+
+  Pretty good, yeah?
+}
+
+\begin{frame}{Mercury's orbit}
+  \centering
+  \includegraphics[height=0.68\textheight]{mercury_precession.pdf}\\[0.3em]
+  {\small\itshape\color{color_mute}
+    Newton predicts; observation gives 43 arcseconds per century more.}
+\end{frame}
+\note{%
+  Well\ldots it's not quite right. Mercury has an additional orbital motion that Newton can't explain.
+}
+
+\begin{frame}{Newton, takeaway}
+  \begin{itemize}
+    \item Newton calls a shot, then nails it.
+    \item A theory survives by surviving the next observation.
+    \item Mercury is the called shot the theory missed.
+    \item Einstein opens a new regime; Newton becomes a subset.
+  \end{itemize}
+\end{frame}
+\note{%
+  So what does Newton give us in the world of falsifiability? He's still calculating things proactively. He happens to be getting it right enough of the time to be valuable. Which brings us to the guy who finally figured out what was actually going on.
+}
+
+%%%---- Popper
+\begin{frame}{Karl Popper}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.42\textwidth}
+      \includegraphics[width=\linewidth]{popper_1987.jpg}\\[0.3em]
+      {\scriptsize\itshape\color{color_mute}
+        photo by D.\,K.\,Bandy, 1987 (CC BY-SA 4.0).}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      \begin{itemize}
+        \item 1902 to 1994.
+        \item Vienna, edge of the Vienna Circle.
+        \item New Zealand before WW2; then LSE.
+        \item \emph{The Logic of Scientific Discovery}, 1934.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{%
+  Karl Popper is one of the more influential philosophers of science in the 20th century. He grew up in Vienna, and his parents were close friends of Sigmund Freud's sister, Rosa Graf. He was also very sympathetic to early communist movements, but we'll see in a bit he sours on Marxism. He's able to flee Vienna before Nazi rule, to New Zealand, but after publishing his first seminal work ``The Logic of Scientific Discovery.''
+}
+
+\begin{frame}{Popper, the foil}
+  \begin{itemize}
+    \item Freud explains every behavior, in any direction.
+    \item A theory that forbids nothing predicts nothing.
+    \item The asymmetry: confirmation is cheap, refutation is decisive.
+  \end{itemize}
+\end{frame}
+\note{%
+  The first part of Logic of Discovery is a critique of Freud and Marx. Again, he grows up around Freud, and notices this pattern. Whenever Freud makes a claim, whatever a patient says or does just becomes more evidence for the theory. There's no behavior that would prove him wrong.
+
+  This is even more problematic when Popper views Marxism. While the ideas of Marx and Engels in \emph{Das Kapital} seem very persuasive, the violence of the Russian Revolution and the rise of Nazism really sour him on their scientific validity. Even moreso than Freud, Marxist revolutions in practice require continuous ad-hoc refinement for any new data point that comes up. They just keep changing the so-called theory to meet whatever the leadership wants, that it's not what anyone could consider ``scientific''. This is later carried forward in ``The Open Society'', which, aside, is a shockingly relevant text for US politics today.
+}
+
+\begin{frame}{Popper, the rule}
+  \begin{itemize}
+    \item A claim is scientific if it forbids something.
+    \item Science calls its shot before it takes it.
+    \item One missed shot is enough.
+  \end{itemize}
+\end{frame}
+\note{%
+  Popper's claim is that a scientific theory is one that can be falsified by evidence. A pseudoscientific claim may sound plausible, and a pseudoscientific practitioner will see examples \emph{confirming} their theory nearly anywhere they look. But that's easy and wrong. We must look for examples that \emph{disprove} our claims to understand when we've found where a theory fails.
+}
+
+\begin{frame}{Yanofsky's cone}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    % LEFT: the countable world
+    \node[space_blob, minimum width=4.6cm, minimum height=5.0cm] (world) at (-3.6, 0) {};
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_mute] at (-3.6, 2.0) {the countable world};
+    \node[figure_dot] at (-4.4,  0.9) {};
+    \node[figure_dot] at (-3.0,  0.5) {};
+    \node[figure_dot] at (-4.2, -0.4) {};
+    \node[figure_dot] at (-2.6, -1.1) {};
+    \node[figure_dot] at (-3.8, -1.4) {};
+
+    % RIGHT: the cone of programs over algorithms over functions
+    \draw[draw=color_mute, line width=0.7pt] (1.0,-2.4) -- (5.4, 2.0);
+    \draw[draw=color_mute, line width=0.7pt] (5.4,-2.4) -- (1.0, 2.0);
+    \node[figure_label, font=\rmfamily\small, text=color_mute] at (3.2,  1.9) {programs};
+    \node[figure_label, font=\rmfamily\small, text=color_mute] at (3.2,  0.1) {algorithms};
+    \node[figure_label, font=\rmfamily\small, text=color_mute] at (3.2, -1.9) {functions};
+    \draw[draw=color_mute, dashed, line width=0.4pt] (1.6,-1.2) -- (4.8,-1.2);
+    \draw[draw=color_mute, dashed, line width=0.4pt] (2.2, 0.6) -- (4.2, 0.6);
+
+    % Mapping arrow
+    \draw[diagram_arrow] (-1.3, 0) -- (0.6, 0);
+  \end{tikzpicture}
+  \vskip 0.4em
+  {\small\itshape\color{color_mute} mappings between the world and the language we use to talk about it.}
+\end{frame}
+\note{%
+  Let's look at this through a familiar lens. The right should look familiar, it's the same tower of functions, algorithms, and programs we've seen throughout the course. We have all possible functions on the bottom. Then there's all algorithims, of which a countably infinite number satisfy a certain function. And then there's actual programs, again a countably infinite number of programs for each specific algorithm.
+
+  But on the left, we have something that came up a bit more recently, and that's the notion of ``the world'' or ``reality''. I call it ``the things one could count''. The left is anything that ``actually exists'', that you could go up to and interact with. The right is in each of our minds, it's conceptual, theoretical, language and stories. It's kind of been hiding, both through this course and throughout Western thought.
+}
+
+\begin{frame}{Three eras, one discipline}
+  \begin{itemize}
+    \item Archimedes shows something that could go either way.
+    \item Newton calculates exactly what to expect.
+    \item Popper describes how to narrow a theory to make it stronger.
+    \item Goedel, Turing, Rice, Shapiro: the same, mathematically.
+  \end{itemize}
+\end{frame}
+\note{%
+  So this is a very brief overview of three figures in history looking at that first question, how do you know and trust a claim is right? If the person making the claim leaves room for it to be falsified, you can have a pretty good idea that they're honest. At least, they can be comfortable putting a bounds on what they're saying.
+}
+
+%%% ============================================================
+%%% IV. PRACTICE: DITHERING AND CONSTRAINT
+%%% ============================================================
+
+\section{Practice: Dithering and Constraint}
+\note{%
+  Last leg. We did the math, we did the history, now we're going to talk about how this actually shows up day to day if you write software for a living.
+}
+
+\begin{frame}{Two boundaries on an undecidable middle}
+  \begin{itemize}
+    \item \emph{Inner:} tests, witness by witness.
+    \item \emph{Outer:} types, refusal before runtime.
+    \item The gap in between is where the bugs live.
+  \end{itemize}
+\end{frame}
+\note{%
+  OK and in this last part, we're going to switch from a math talk and a history talk to a software engineering talk. How do we ask these kinds of question in software? Rice's theorem says that mathematically, given a function, we can't really do much interesting things with that function, we can't look at it and get anything useful out. The only thing we can do with it, well, give it an input, wait around for a while, and\ldots see what happens?
+
+  But that's not very interesting. Instead, we're going to attack it from two directions. From the bottom, we're going to apply Rice--Shapiro and a technique I'll call dithering to find where the boundary of the function's properties are, and on the other we're going to attack down from the program side, since we can say interesting things about programs.
+}
+
+\begin{frame}{World and function}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[space_blob, minimum width=4.6cm, minimum height=5.0cm] (world) at (-3.6, 0) {};
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_mute] at (-3.6, 2.0) {transactions};
+    \node[figure_dot] at (-4.4,  0.9) {};
+    \node[figure_dot] at (-3.0,  0.5) {};
+    \node[figure_dot] at (-4.2, -0.4) {};
+    \node[figure_dot] at (-2.6, -1.1) {};
+
+    \draw[draw=color_mute, line width=0.7pt] (1.0,-2.4) -- (5.4, 2.0);
+    \draw[draw=color_mute, line width=0.7pt] (5.4,-2.4) -- (1.0, 2.0);
+    \node[figure_label, font=\rmfamily\small, text=color_mute] at (3.2,  1.9) {programs};
+    \node[figure_label, font=\rmfamily\small, text=color_mute] at (3.2,  0.1) {algorithms};
+    \node[figure_label, font=\rmfamily\small, text=color_mute] at (3.2, -1.9) {\texttt{is\_fraud}};
+
+    \draw[diagram_arrow] (-1.3, 0) -- (0.6, 0) node[midway, above, figure_label, font=\rmfamily\itshape\small] {classify};
+  \end{tikzpicture}
+\end{frame}
+\note{%
+  Here's our cone again, but we've got a lot more detail. Over on the left, in the world, we have a bunch of transactions that people made. Over on the right, we need a function that classifies a transaction as \texttt{is\_fraud} and not \texttt{is\_fraud}.
+}
+
+\begin{frame}{Dithering, two points}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[space_divide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[figure_label] at (-3.3, 2.0) {fraud};
+    \node[figure_label] at ( 3.3, 2.0) {not fraud};
+    \node[witness_dot] at (-2.0, 0.3) {};
+    \node[figure_label, font=\rmfamily\itshape\small] at (-2.0, 0.9) {inside};
+    \node[witness_dot] at ( 2.2, -0.4) {};
+    \node[figure_label, font=\rmfamily\itshape\small] at ( 2.2, 0.2) {outside};
+  \end{tikzpicture}
+\end{frame}
+\note{%
+  We're going to start with a unit test. This point here? This one should definitely be labeled fraud. And here's a point, this one is not fraud. Ok, that's nice. But we've still got this boundary we want to find.
+}
+
+\begin{frame}{Loose dithering}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[space_divide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    \node[figure_label] at (-3.3, 2.0) {fraud};
+    \node[figure_label] at ( 3.3, 2.0) {not fraud};
+    \node[witness_dot] at (-2.6, 1.2) {}; \node[witness_dot] at (-1.8, 0.6) {};
+    \node[witness_dot] at (-2.4, -0.1) {}; \node[witness_dot] at (-1.4, -0.9) {};
+    \node[witness_dot] at (-3.1, 0.0) {}; \node[witness_dot] at (-2.0, 1.7) {};
+    \node[witness_dot] at ( 2.4, 0.7) {}; \node[witness_dot] at ( 1.7, -0.6) {};
+    \node[witness_dot] at ( 2.9, -1.2) {}; \node[witness_dot] at ( 1.4, 1.4) {};
+    \node[figure_label, text=color_mute, font=\rmfamily\itshape\small]
+      at (0, -3.2) {each point is a called shot};
+  \end{tikzpicture}
+\end{frame}
+\note{%
+  And what we'll do is just keep ``dithering'', that is, in an organized manner we'll just try a whole bunch of points around here. And as we keep going, we'll find exactly where the line in the function is. If we have enough points, we can be confident that all of them lie within the partition that we're interested in, the fraud side.
+}
+
+\begin{frame}{Dithering as unit testing}
+  \begin{itemize}
+    \item A unit test is a called shot at behavior.
+    \item \emph{Landed:} a witness; the function is inside the set, for this input.
+    \item \emph{Missed:} a refutation; the function is not what we claimed.
+    \item The suite raises the lower bound on the index set, witness by witness.
+  \end{itemize}
+\end{frame}
+\note{%
+  This is unit testing, or property testing, or dithering around the area we're interested in. We looked at the real world, we created a theory of what constitutes a fraudulent transaction, and we found a function that's a proof of that theory. So long as every point keeps getting classified correctly, we have confidence in our claim that this function is the truth of the question.
+
+  A couple notes for completeness. The function or the program in this case is actually doing both $F$ and not $F$ at the same time, so it's giving us the total partition. And the assertion is ``this point lands on the correct side of the partition'', which while one step removed from the formalism of Rice's theorem, I hope you're OK following me there.
+
+  Second, this does gloss over that this function is bounded, so there's technically a third case where the function fails to find an answer within a certain number of steps.
+}
+
+\begin{frame}{Type systems}
+  \begin{itemize}
+    \item Types call shots at composition, not behavior.
+    \item The compiler is the referee.
+    \item A type error is a refutation before the shot is even taken.
+  \end{itemize}
+\end{frame}
+\note{%
+  I do want to go out on a bit of a limb and come at this from the other direction, because again I think this is really important to understand at least my distinction between the mathematician, the computer scientist, and the software engineer. Mathematicians have said these nice wonderful theorems that tell me I can't just use a black box to understand if I have the right function. That's great, it means I have a job and I get paid a lot of money to find things at the top of the diagram that map down to the bottom.
+
+  But when programming, I'm not typing down here in the function space, the function never ``exists'' anywhere. It's on the right hand side, in language. I'm actually working up here, in the real world in text, which maps to the top right in syntactical programs set. And if I'm in programs, there are some very strong proofs and theorems we can apply to the lists and trees that create programs!
+}
+
+\begin{frame}{Types as the outer fence}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[draw=color_primary, line width=1.0pt, rounded corners=12pt]
+      (-3.6, -1.8) rectangle (3.6, 1.8);
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_primary] at (0, 2.1) {well-typed programs};
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_mute]   at (0, -2.7) {ill-typed programs excluded before runtime};
+  \end{tikzpicture}
+\end{frame}
+\note{%
+  The compiler is a total computable function that looks at the finite set of typable programs, and makes provable assertions about their behavior. Programs are finite, so this is cool. But what that does is also gives us constraints going down the stack! If I can prove that this particular program halts, syntactically (it has no loops, or the loop can be shown to complete), then I know that the function it represents down here has certain useful properties, like the function $f$ that is encoded by $P$ will halt. That's neat!
+}
+
+\begin{frame}{Two bounds on the index set}
+  \centering
+  \begin{tikzpicture}[scale=1.0]
+    \node[space_blob, minimum width=10cm, minimum height=5cm] (univ) at (0,0) {};
+    \draw[space_divide] (-0.4, 2.5) .. controls (0.6, 1) and (-0.6, -1) .. (0.4, -2.5);
+    % Lower bound: witnesses creeping up from inside
+    \node[witness_dot] at (-2.6, 1.2) {}; \node[witness_dot] at (-1.8, 0.6) {};
+    \node[witness_dot] at (-2.4, -0.1) {}; \node[witness_dot] at (-1.4, -0.9) {};
+    \node[witness_dot] at (-2.0, 1.7) {};
+    % Outer fence (types)
+    \draw[draw=color_primary, line width=1.0pt, rounded corners=12pt]
+      (-4.4, -2.2) rectangle (4.4, 2.2);
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_primary]
+      at (-3.8, 2.55) {types};
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_primary]
+      at (-2.0, -2.0) {tests};
+    \node[figure_label, font=\rmfamily\itshape\small, text=color_mute]
+      at (0, -3.0) {the gap between the bounds is where the bugs live};
+  \end{tikzpicture}
+\end{frame}
+\note{%
+  Zooming in on the partition down here, we see that we have the area the boundary, and we're dithering around it with unit tests. But now that I have a specific program, that I claim represents this function, we also have an outer bounds of what this program could achieve. And that means we have a much smaller area to dither around! The work we need to do to show that there is no counter example is much smaller, and much more tractable in practice.
+}
+
+%%% ============================================================
+%%% V. CLOSE
+%%% ============================================================
+
+\section{The landing}
+\note{%
+  Alright, bringing it home.
+}
+
+\begin{frame}{The landing}
+  \begin{itemize}
+    \item Rice--Shapiro: partitioning on arbitrary properties is undecidable, but rejecting candidates is easy.
+    \item Science took a long, troubled road to find that confidence.
+    \item Software engineers get this rich intellectual history almost free.
+  \end{itemize}
+\end{frame}
+\note{%
+  So that's the whole arc. Rice--Shapiro says partitioning on arbitrary properties is undecidable, but rejecting a candidate, that part is easy, one finite witness is all you need. Science took a really long, often pretty painful road to get to that idea, basically two and a half thousand years of people making claims and other people figuring out how to refute them. And we, as software engineers, get to inherit all of it pretty much for free. Every unit test you write is Archimedes' bath tub. Every type signature is Popper's rule. Pretty good deal, honestly.
+}
+
+\begin{frame}{Questions}
+  \centering
+  \vfill
+  {\Large Thank you.}\\[0.6em]
+  {\small\itshape\color{color_mute} References on request.}
+  \vfill
+\end{frame}
+\note{%
+  Thanks for sticking with me. Happy to take questions, and I've got references on everything I mentioned if anyone wants to dig in further.
+}
 
 \end{document}
